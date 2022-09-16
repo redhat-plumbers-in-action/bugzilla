@@ -1,4 +1,4 @@
-# Bugzilla | [![npm version](https://badgen.net/npm/v/bugzilla)](https://www.npmjs.com/package/bugzilla) [![Build](https://github.com/Mossop/bugzilla-ts/actions/workflows/build.yml/badge.svg)](https://github.com/Mossop/bugzilla-ts/actions/workflows/build.yml) [![codecov](https://codecov.io/gh/Mossop/bugzilla-ts/branch/main/graph/badge.svg)](https://codecov.io/gh/Mossop/bugzilla-ts)
+# Bugzilla | [![npm version](https://badgen.net/npm/v/bugzilla)](https://www.npmjs.com/package/bugzilla) [![Build](https://github.com/redhat-plumbers-in-action/bugzilla/actions/workflows/build.yml/badge.svg)](https://github.com/redhat-plumbers-in-action/bugzilla/actions/workflows/build.yml) [![codecov](https://codecov.io/gh/redhat-plumbers-in-action/bugzilla/branch/main/graph/badge.svg)](https://codecov.io/gh/redhat-plumbers-in-action/bugzilla)
 
 Typesafe access to [Bugzilla's REST API](https://bugzilla.readthedocs.io/en/latest/api/index.html).
 
