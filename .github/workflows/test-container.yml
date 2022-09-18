@@ -39,8 +39,8 @@ jobs:
         config:
           - dockerfile: itest/container/Dockerfile
             context: itest/container
-            tag: test
-            deployment-environment-identifier: Test
+            tag: integration
+            deployment-environment-identifier: Integration Container
 
     timeout-minutes: 60
 
