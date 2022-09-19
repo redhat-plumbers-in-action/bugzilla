@@ -5,12 +5,12 @@ on:
   push:
     branches: [main]
     paths:
-      - itest/container
+      - itest/container/*
       - .github/workflows/test-container.yml
   pull_request:
     branches: [main]
     paths:
-      - itest/container
+      - itest/container/*
       - .github/workflows/test-container.yml
   workflow_dispatch:
 
