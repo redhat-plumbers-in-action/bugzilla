@@ -1,5 +1,4 @@
 ---
-
 name: Differential ShellCheck
 on:
   pull_request:
