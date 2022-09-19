@@ -7,8 +7,8 @@ ${ITEST}/stop_container.sh
 
 rm -rf "${ITEST}/db"
 mkdir -p "${ITEST}/db"
-docker build -t ghcr.io/redhat-plumbers-in-action/bugzilla-test:latest "${ITEST}/container"
-docker run --rm -d -p 8088:80 --name bugzilla-ts-test ghcr.io/redhat-plumbers-in-action/bugzilla-test:latest >/dev/null
+docker build -t ghcr.io/redhat-plumbers-in-action/bugzilla/integration:latest "${ITEST}/container"
+docker run --rm -d -p 8088:80 --name integration ghcr.io/redhat-plumbers-in-action/bugzilla/integration:latest >/dev/null
 
 echo "Waiting for http service to start..."
 while ! curl http://localhost:8088/ >/dev/null 2>/dev/null
