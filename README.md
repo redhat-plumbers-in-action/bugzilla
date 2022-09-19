@@ -7,7 +7,7 @@ now.
 
 # Tests
 
-Some basic tests now exist. `npm test` will run the main tests. `npm run itest` will run some
+Some basic tests now exist. `yarn test` will run the main tests. `yarn run itest` will run some
 integration tests against a real Bugzilla instance however you must have docker installed
 in order to run these.
 
