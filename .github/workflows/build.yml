@@ -1,3 +1,4 @@
+---
 name: Build and Coverage
 
 on:
@@ -25,22 +26,23 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node-version }}
-          cache: npm
+          cache: yarn
+          cache-dependency-path: yarn.lock
 
       - name: Install
-        run: npm install
+        run: yarn install
 
       - name: Compile
-        run: npm run build
+        run: yarn run build
 
       - name: Lint
-        run: npm run lint
+        run: yarn run lint
 
       - name: Start Bugzilla
         run: ./itest/start_container.sh
 
       - name: Test
-        run: npx jest -c jest.ci.config.js --coverage
+        run: yarn jest -c jest.ci.config.js --coverage
 
       - name: Codecov
         if: ${{ matrix.node-version == '17.x' }}

@@ -11,7 +11,7 @@
     "prettier": "prettier --write .",
     "test": "jest",
     "itest": "jest -c itest/jest.config.js",
-    "prepack": "npm run build",
+    "prepack": "yarn run build",
     "version": "node scripts/version.js && git add CHANGELOG.md",
     "postversion": "node scripts/post-version.js && git add CHANGELOG.md && git commit -m 'Update CHANGELOG.md'"
   },
