@@ -5,15 +5,15 @@ Typesafe access to [Bugzilla's REST API](https://bugzilla.readthedocs.io/en/late
 Very early work in progress, getting info from a bug or searching bugs is the main priority right
 now.
 
-# Tests
+## Tests
 
 Some basic tests now exist. `yarn test` will run the main tests. `yarn run itest` will run some
 integration tests against a real Bugzilla instance however you must have docker installed
 in order to run these.
 
-# API
+## API
 
-## Creating the API instance
+### Creating the API instance
 
 ```javascript
 import BugzillaAPI from "bugzilla";
@@ -35,13 +35,13 @@ let api = new BugzillaAPI(
 await api.version();
 ```
 
-## Retrieving bugs by ID
+### Retrieving bugs by ID
 
 ```javascript
 let bugs = await api.getBugs([123456, 123457]);
 ```
 
-## Querying bugs
+### Querying bugs
 
 You can use a `quicksearch` string:
 
@@ -71,7 +71,7 @@ let bugs = await api.advancedSearch({
 });
 ```
 
-## Filtering bug fields
+### Filtering bug fields
 
 To reduce bandwidth or improve performance it is possible to filter the fields returned by functions
 that return bugs:
@@ -91,7 +91,7 @@ supported.
 
 Custom fields are not currently returned.
 
-## Retrieving comments by ID
+### Retrieving comments by ID
 
 ```javascript
 // .getComment() accepts one parameter, ID of comment, as number
@@ -100,7 +100,7 @@ let comment = await api.getComment(123456);
 
 Return value is Comment object.
 
-## Retrieving all comments of bug
+### Retrieving all comments of bug
 
 ```javascript
 // .getBugComments() accepts one parameter, ID of bug, as number
@@ -109,7 +109,7 @@ let comments = await api.getBugComments(123456);
 
 Return value is array of Comment objects.
 
-## Creating comments
+### Creating comments
 
 ```javascript
 let comment = await api.createComment(
@@ -121,7 +121,7 @@ let comment = await api.createComment(
 
 Returned value is ID of the newly-created comment.
 
-## Creating bugs
+### Creating bugs
 
 ```javascript
 let bug = await api.createBug({
@@ -138,7 +138,7 @@ let bug = await api.createBug({
 
 Returned value is ID of the newly-created bug.
 
-## Updating bugs
+### Updating bugs
 
 Example of adding email address on cc list of bug #123456:
 
@@ -151,7 +151,7 @@ let response = await api.updateBug(123456, {
 
 Returned value is same as described in Bugzilla [docs](https://bugzilla.readthedocs.io/en/latest/api/core/v1/bug.html#update-bug).
 
-## Retrieving attachments by ID
+### Retrieving attachments by ID
 
 ```javascript
 // .getAttachment() accepts one parameter, ID of attachment, as number
@@ -160,7 +160,7 @@ let attachment = await api.getAttachment(123456);
 
 Return value is Attachment object.
 
-## Retrieving all attachments of bug
+### Retrieving all attachments of bug
 
 ```javascript
 // .getBugsAttachments() accepts one parameter, ID of bug, as number
@@ -169,7 +169,7 @@ let attachments = await api.getBugAttachments(123456);
 
 Return value is array of Attachment objects.
 
-## Creating attachments
+### Creating attachments
 
 ```javascript
 let attachment = await api.createAttachment(123456, {
@@ -184,7 +184,7 @@ let attachment = await api.createAttachment(123456, {
 
 Returned value is an array of IDs of the newly-created attachments.
 
-## Updating attachments
+### Updating attachments
 
 Example of changing content type of attachment #123456:
 
