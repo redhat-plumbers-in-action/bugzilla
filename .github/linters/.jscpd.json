@@ -5,7 +5,7 @@
     "**/__snapshots__/**",
     "**/fixtures/**",
     "**/test/**",
-    ".mergify.yml"
+    "**/.mergify.yml"
   ],
   "absolute": true,
   "gitignore": true
