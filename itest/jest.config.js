@@ -9,6 +9,7 @@ module.exports = {
   maxConcurrency: 1,
   maxWorkers: 1,
 
+  testEnvironment: 'node',
   testTimeout: 10000,
 
   globalSetup: path.join(__dirname, 'setup.js'),
