@@ -32,6 +32,30 @@ jobs:
           VALIDATE_BASH: false
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
+  prettier-and-eslint:
+    name: Prettier & ESLint
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Repository checkout
+        uses: actions/checkout@v3
+
+      - name: Use Node.js 18.x
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+          cache: yarn
+
+      - name: Install
+        run: yarn install
+
+      - name: Prettier
+        run: yarn run format-check
+
+      - name: ESLint
+        if: always()
+        run: yarn run lint
+
   differential-shellcheck:
     name: Differential ShellCheck
     if: github.event_name == 'pull_request'

@@ -7,8 +7,9 @@
   "typings": "dist/index.d.ts",
   "scripts": {
     "build": "tsc -b tsconfig.build.json",
-    "lint": "eslint . && prettier --check .",
-    "prettier": "prettier --write .",
+    "format": "prettier --write .",
+    "format-check": "prettier --check .",
+    "lint": "eslint .",
     "test": "jest",
     "itest": "jest -c itest/jest.config.js",
     "prepack": "yarn run build",
