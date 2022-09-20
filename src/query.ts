@@ -1,4 +1,4 @@
-type ExposedPromiseKeys = "then" | "finally" | "catch";
+type ExposedPromiseKeys = 'then' | 'finally' | 'catch';
 type Promisish<T> = Pick<Promise<T>, keyof Promise<T> & ExposedPromiseKeys>;
 
 abstract class Executable<T> implements Promisish<T> {

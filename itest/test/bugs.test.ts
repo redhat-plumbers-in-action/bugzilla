@@ -1,41 +1,41 @@
-import BugzillaAPI from "../../src";
+import BugzillaAPI from '../../src';
 
 let api: BugzillaAPI;
 
 const bug = {
-  product: "TestProduct",
-  component: "TestComponent",
-  summary: "A test bug",
-  version: "unspecified",
-  description: "This is a test bug",
-  op_sys: "Mac OS",
-  platform: "Macintosh",
-  priority: "High",
-  severity: "major",
+  product: 'TestProduct',
+  component: 'TestComponent',
+  summary: 'A test bug',
+  version: 'unspecified',
+  description: 'This is a test bug',
+  op_sys: 'Mac OS',
+  platform: 'Macintosh',
+  priority: 'High',
+  severity: 'major',
 };
 
 let bugs: number[] = [];
 
 beforeAll(async () => {
   api = new BugzillaAPI(
-    "http://localhost:8088/bugzilla/",
-    "admin@nowhere.com",
-    "adminpass",
+    'http://localhost:8088/bugzilla/',
+    'admin@nowhere.com',
+    'adminpass',
   );
 
   bugs.push(await api.createBug(bug));
   bugs.push(await api.createBug(bug));
   bugs.push(
     await api.createBug({
-      product: "TestProduct",
-      component: "TestComponent",
-      summary: "A test bug 2",
-      version: "unspecified",
-      description: "This is a test bug 2",
-      op_sys: "Mac OS",
-      platform: "Macintosh",
-      priority: "High",
-      severity: "normal",
+      product: 'TestProduct',
+      component: 'TestComponent',
+      summary: 'A test bug 2',
+      version: 'unspecified',
+      description: 'This is a test bug 2',
+      op_sys: 'Mac OS',
+      platform: 'Macintosh',
+      priority: 'High',
+      severity: 'normal',
     }),
   );
 
@@ -43,28 +43,28 @@ beforeAll(async () => {
   expect(bugs.length).toEqual(3);
 });
 
-test("Fetch bugs", async () => {
+test('Fetch bugs', async () => {
   let result = await api.getBugs([bugs[0] as number, bugs[1] as number]);
   expect(result).toEqual([
     {
       alias: [],
-      assigned_to: "admin@nowhere.com",
+      assigned_to: 'admin@nowhere.com',
       assigned_to_detail: {
         id: 1,
-        name: "admin@nowhere.com",
-        real_name: "Insecure User",
+        name: 'admin@nowhere.com',
+        real_name: 'Insecure User',
       },
       blocks: [],
       cc: [],
       cc_detail: [],
-      classification: "Unclassified",
-      component: "TestComponent",
+      classification: 'Unclassified',
+      component: 'TestComponent',
       creation_time: expect.anything(),
-      creator: "admin@nowhere.com",
+      creator: 'admin@nowhere.com',
       creator_detail: {
         id: 1,
-        name: "admin@nowhere.com",
-        real_name: "Insecure User",
+        name: 'admin@nowhere.com',
+        real_name: 'Insecure User',
       },
       depends_on: [],
       dupe_of: null,
@@ -77,42 +77,42 @@ test("Fetch bugs", async () => {
       is_open: true,
       keywords: [],
       last_change_time: expect.anything(),
-      op_sys: "Mac OS",
-      platform: "Macintosh",
-      priority: "High",
-      product: "TestProduct",
-      qa_contact: "",
+      op_sys: 'Mac OS',
+      platform: 'Macintosh',
+      priority: 'High',
+      product: 'TestProduct',
+      qa_contact: '',
       qa_contact_detail: undefined,
-      resolution: "",
+      resolution: '',
       see_also: [],
-      severity: "major",
-      status: "CONFIRMED",
-      summary: "A test bug",
-      target_milestone: "---",
+      severity: 'major',
+      status: 'CONFIRMED',
+      summary: 'A test bug',
+      target_milestone: '---',
       update_token: undefined,
-      url: "",
-      version: "unspecified",
-      whiteboard: "",
+      url: '',
+      version: 'unspecified',
+      whiteboard: '',
     },
     {
       alias: [],
-      assigned_to: "admin@nowhere.com",
+      assigned_to: 'admin@nowhere.com',
       assigned_to_detail: {
         id: 1,
-        name: "admin@nowhere.com",
-        real_name: "Insecure User",
+        name: 'admin@nowhere.com',
+        real_name: 'Insecure User',
       },
       blocks: [],
       cc: [],
       cc_detail: [],
-      classification: "Unclassified",
-      component: "TestComponent",
+      classification: 'Unclassified',
+      component: 'TestComponent',
       creation_time: expect.anything(),
-      creator: "admin@nowhere.com",
+      creator: 'admin@nowhere.com',
       creator_detail: {
         id: 1,
-        name: "admin@nowhere.com",
-        real_name: "Insecure User",
+        name: 'admin@nowhere.com',
+        real_name: 'Insecure User',
       },
       depends_on: [],
       dupe_of: null,
@@ -125,45 +125,45 @@ test("Fetch bugs", async () => {
       is_open: true,
       keywords: [],
       last_change_time: expect.anything(),
-      op_sys: "Mac OS",
-      platform: "Macintosh",
-      priority: "High",
-      product: "TestProduct",
-      qa_contact: "",
+      op_sys: 'Mac OS',
+      platform: 'Macintosh',
+      priority: 'High',
+      product: 'TestProduct',
+      qa_contact: '',
       qa_contact_detail: undefined,
-      resolution: "",
+      resolution: '',
       see_also: [],
-      severity: "major",
-      status: "CONFIRMED",
-      summary: "A test bug",
-      target_milestone: "---",
+      severity: 'major',
+      status: 'CONFIRMED',
+      summary: 'A test bug',
+      target_milestone: '---',
       update_token: undefined,
-      url: "",
-      version: "unspecified",
-      whiteboard: "",
+      url: '',
+      version: 'unspecified',
+      whiteboard: '',
     },
   ]);
 
-  await expect(api.quicksearch("ALL")).resolves.toEqual(
+  await expect(api.quicksearch('ALL')).resolves.toEqual(
     expect.arrayContaining(result),
   );
 });
 
-test("Update bug", async () => {
+test('Update bug', async () => {
   await expect(
     api.updateBug(bugs[0] as number, {
       id_or_alias: bugs[0] as number,
       ids: [bugs[0] as number],
       blocks: { set: [bugs[1] as number] },
-      comment: { comment: "New comment", is_private: false },
-      severity: "normal",
+      comment: { comment: 'New comment', is_private: false },
+      severity: 'normal',
     }),
   ).resolves.toEqual([
     {
       alias: [],
       changes: new Map([
-        ["blocks", { added: "2", removed: "" }],
-        ["severity", { added: "normal", removed: "major" }],
+        ['blocks', { added: '2', removed: '' }],
+        ['severity', { added: 'normal', removed: 'major' }],
       ]),
       id: bugs[0],
       last_change_time: expect.anything(),
@@ -171,17 +171,17 @@ test("Update bug", async () => {
   ]);
 });
 
-test("Update multiple bugs", async () => {
+test('Update multiple bugs', async () => {
   await expect(
     api.updateBug(bugs[0] as number, {
       id_or_alias: bugs[0] as number,
       ids: [bugs[0] as number, bugs[1] as number],
-      severity: "major",
+      severity: 'major',
     }),
   ).resolves.toEqual([
     {
       alias: [],
-      changes: new Map([["severity", { added: "major", removed: "normal" }]]),
+      changes: new Map([['severity', { added: 'major', removed: 'normal' }]]),
       id: bugs[0],
       last_change_time: expect.anything(),
     },
@@ -194,27 +194,27 @@ test("Update multiple bugs", async () => {
   ]);
 });
 
-test("Quickly search non-important bugs", async () => {
-  await expect(api.quicksearch("severity:normal")).resolves.toEqual([
+test('Quickly search non-important bugs', async () => {
+  await expect(api.quicksearch('severity:normal')).resolves.toEqual([
     {
       alias: [],
-      assigned_to: "admin@nowhere.com",
+      assigned_to: 'admin@nowhere.com',
       assigned_to_detail: {
         id: 1,
-        name: "admin@nowhere.com",
-        real_name: "Insecure User",
+        name: 'admin@nowhere.com',
+        real_name: 'Insecure User',
       },
       blocks: [],
       cc: [],
       cc_detail: [],
-      classification: "Unclassified",
-      component: "TestComponent",
+      classification: 'Unclassified',
+      component: 'TestComponent',
       creation_time: expect.anything(),
-      creator: "admin@nowhere.com",
+      creator: 'admin@nowhere.com',
       creator_detail: {
         id: 1,
-        name: "admin@nowhere.com",
-        real_name: "Insecure User",
+        name: 'admin@nowhere.com',
+        real_name: 'Insecure User',
       },
       depends_on: [],
       dupe_of: null,
@@ -227,51 +227,51 @@ test("Quickly search non-important bugs", async () => {
       is_open: true,
       keywords: [],
       last_change_time: expect.anything(),
-      op_sys: "Mac OS",
-      platform: "Macintosh",
-      priority: "High",
-      product: "TestProduct",
-      qa_contact: "",
+      op_sys: 'Mac OS',
+      platform: 'Macintosh',
+      priority: 'High',
+      product: 'TestProduct',
+      qa_contact: '',
       qa_contact_detail: undefined,
-      resolution: "",
+      resolution: '',
       see_also: [],
-      severity: "normal",
-      status: "CONFIRMED",
-      summary: "A test bug 2",
-      target_milestone: "---",
+      severity: 'normal',
+      status: 'CONFIRMED',
+      summary: 'A test bug 2',
+      target_milestone: '---',
       update_token: undefined,
-      url: "",
-      version: "unspecified",
-      whiteboard: "",
+      url: '',
+      version: 'unspecified',
+      whiteboard: '',
     },
   ]);
 });
 
-test("Get history of bug", async () => {
+test('Get history of bug', async () => {
   await expect(api.bugHistory(bugs[2] as number)).resolves.toEqual([]);
 });
 
-test("Use of advance searching", async () => {
+test('Use of advance searching', async () => {
   const expected = [
     {
       alias: [],
-      assigned_to: "admin@nowhere.com",
+      assigned_to: 'admin@nowhere.com',
       assigned_to_detail: {
         id: 1,
-        name: "admin@nowhere.com",
-        real_name: "Insecure User",
+        name: 'admin@nowhere.com',
+        real_name: 'Insecure User',
       },
       blocks: [],
       cc: [],
       cc_detail: [],
-      classification: "Unclassified",
-      component: "TestComponent",
+      classification: 'Unclassified',
+      component: 'TestComponent',
       creation_time: expect.anything(),
-      creator: "admin@nowhere.com",
+      creator: 'admin@nowhere.com',
       creator_detail: {
         id: 1,
-        name: "admin@nowhere.com",
-        real_name: "Insecure User",
+        name: 'admin@nowhere.com',
+        real_name: 'Insecure User',
       },
       depends_on: [],
       dupe_of: null,
@@ -284,39 +284,39 @@ test("Use of advance searching", async () => {
       is_open: true,
       keywords: [],
       last_change_time: expect.anything(),
-      op_sys: "Mac OS",
-      platform: "Macintosh",
-      priority: "High",
-      product: "TestProduct",
-      qa_contact: "",
+      op_sys: 'Mac OS',
+      platform: 'Macintosh',
+      priority: 'High',
+      product: 'TestProduct',
+      qa_contact: '',
       qa_contact_detail: undefined,
-      resolution: "",
+      resolution: '',
       see_also: [],
-      severity: "normal",
-      status: "CONFIRMED",
-      summary: "A test bug 2",
-      target_milestone: "---",
+      severity: 'normal',
+      status: 'CONFIRMED',
+      summary: 'A test bug 2',
+      target_milestone: '---',
       update_token: undefined,
-      url: "",
-      version: "unspecified",
-      whiteboard: "",
+      url: '',
+      version: 'unspecified',
+      whiteboard: '',
     },
   ];
 
   await expect(
     api.advancedSearch(
-      "http://localhost:8088/bugzilla/buglist.cgi?email1=admin%40nowhere.com&severity=normal",
+      'http://localhost:8088/bugzilla/buglist.cgi?email1=admin%40nowhere.com&severity=normal',
     ),
   ).resolves.toEqual(expected);
 
   await expect(
-    api.advancedSearch("email1=admin%40nowhere.com&severity=normal"),
+    api.advancedSearch('email1=admin%40nowhere.com&severity=normal'),
   ).resolves.toEqual(expected);
 
   await expect(
     api.advancedSearch({
-      email1: "admin@nowhere.com",
-      severity: "normal",
+      email1: 'admin@nowhere.com',
+      severity: 'normal',
     }),
   ).resolves.toEqual(expected);
 });

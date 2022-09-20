@@ -1,26 +1,26 @@
-import BugzillaAPI from "../../src";
+import BugzillaAPI from '../../src';
 
 let api: BugzillaAPI;
 
 const bug = {
-  product: "TestProduct",
-  component: "TestComponent",
-  summary: "A test bug",
-  version: "unspecified",
-  description: "This is a test bug",
-  op_sys: "Mac OS",
-  platform: "Macintosh",
-  priority: "High",
-  severity: "major",
+  product: 'TestProduct',
+  component: 'TestComponent',
+  summary: 'A test bug',
+  version: 'unspecified',
+  description: 'This is a test bug',
+  op_sys: 'Mac OS',
+  platform: 'Macintosh',
+  priority: 'High',
+  severity: 'major',
 };
 
 let bugs: number[] = [];
 
 beforeAll(async () => {
   api = new BugzillaAPI(
-    "http://localhost:8088/bugzilla/",
-    "admin@nowhere.com",
-    "adminpass",
+    'http://localhost:8088/bugzilla/',
+    'admin@nowhere.com',
+    'adminpass',
   );
 
   bugs.push(await api.createBug(bug));
@@ -31,28 +31,28 @@ beforeAll(async () => {
 });
 
 // Attachment 1
-test("Create simple attachment", async () => {
+test('Create simple attachment', async () => {
   await expect(
     api.createAttachment(bugs[0] as number, {
       ids: [bugs[0] as number],
-      summary: "Test creation of simple attachment",
-      file_name: "image.png",
-      data: Buffer.from("This is not a image."),
-      content_type: "image/png",
+      summary: 'Test creation of simple attachment',
+      file_name: 'image.png',
+      data: Buffer.from('This is not a image.'),
+      content_type: 'image/png',
     }),
   ).resolves.toEqual([1]);
 });
 
 // Attachment 2
-test("Create complex attachment", async () => {
+test('Create complex attachment', async () => {
   await expect(
     api.createAttachment(bugs[0] as number, {
       ids: [bugs[0] as number],
-      summary: "Test creation of complex attachment",
-      file_name: "patch.patch",
-      data: Buffer.from("This is not a patch."),
-      content_type: "",
-      comment: "",
+      summary: 'Test creation of complex attachment',
+      file_name: 'patch.patch',
+      data: Buffer.from('This is not a patch.'),
+      content_type: '',
+      comment: '',
       //   flags: [
       //     {
       //       name: "review",
@@ -66,26 +66,26 @@ test("Create complex attachment", async () => {
 });
 
 // Attachments 3, 4
-test("Create attachment for multiple bugs at once", async () => {
+test('Create attachment for multiple bugs at once', async () => {
   await expect(
     api.createAttachment(bugs[0] as number, {
       ids: bugs,
-      summary: "Test creation of multiple attachments at once",
-      file_name: "image.png",
-      data: Buffer.from("This is not a image."),
-      content_type: "image/png",
+      summary: 'Test creation of multiple attachments at once',
+      file_name: 'image.png',
+      data: Buffer.from('This is not a image.'),
+      content_type: 'image/png',
     }),
   ).resolves.toEqual([3, 4]);
 });
 
-test("Get single attachment", async () => {
+test('Get single attachment', async () => {
   await expect(api.getAttachment(1)).resolves.toEqual({
     bug_id: bugs[0],
-    content_type: "image/png",
+    content_type: 'image/png',
     creation_time: expect.anything(),
-    creator: "admin@nowhere.com",
-    data: Buffer.from("This is not a image."),
-    file_name: "image.png",
+    creator: 'admin@nowhere.com',
+    data: Buffer.from('This is not a image.'),
+    file_name: 'image.png',
     flags: [],
     id: 1,
     is_obsolete: false,
@@ -93,16 +93,16 @@ test("Get single attachment", async () => {
     is_private: false,
     last_change_time: expect.anything(),
     size: 20,
-    summary: "Test creation of simple attachment",
+    summary: 'Test creation of simple attachment',
   });
 
   await expect(api.getAttachment(2)).resolves.toEqual({
     bug_id: bugs[0],
-    content_type: "text/plain",
+    content_type: 'text/plain',
     creation_time: expect.anything(),
-    creator: "admin@nowhere.com",
-    data: Buffer.from("This is not a patch."),
-    file_name: "patch.patch",
+    creator: 'admin@nowhere.com',
+    data: Buffer.from('This is not a patch.'),
+    file_name: 'patch.patch',
     flags: [],
     id: 2,
     is_obsolete: false,
@@ -110,19 +110,19 @@ test("Get single attachment", async () => {
     is_private: false,
     last_change_time: expect.anything(),
     size: 20,
-    summary: "Test creation of complex attachment",
+    summary: 'Test creation of complex attachment',
   });
 });
 
-test("Get multiple attachments", async () => {
+test('Get multiple attachments', async () => {
   await expect(api.getBugAttachments(bugs[0] as number)).resolves.toEqual([
     {
       bug_id: bugs[0],
-      content_type: "image/png",
+      content_type: 'image/png',
       creation_time: expect.anything(),
-      creator: "admin@nowhere.com",
-      data: Buffer.from("This is not a image."),
-      file_name: "image.png",
+      creator: 'admin@nowhere.com',
+      data: Buffer.from('This is not a image.'),
+      file_name: 'image.png',
       flags: [],
       id: 1,
       is_obsolete: false,
@@ -130,15 +130,15 @@ test("Get multiple attachments", async () => {
       is_private: false,
       last_change_time: expect.anything(),
       size: 20,
-      summary: "Test creation of simple attachment",
+      summary: 'Test creation of simple attachment',
     },
     {
       bug_id: bugs[0],
-      content_type: "text/plain",
+      content_type: 'text/plain',
       creation_time: expect.anything(),
-      creator: "admin@nowhere.com",
-      data: Buffer.from("This is not a patch."),
-      file_name: "patch.patch",
+      creator: 'admin@nowhere.com',
+      data: Buffer.from('This is not a patch.'),
+      file_name: 'patch.patch',
       flags: [],
       id: 2,
       is_obsolete: false,
@@ -146,15 +146,15 @@ test("Get multiple attachments", async () => {
       is_private: false,
       last_change_time: expect.anything(),
       size: 20,
-      summary: "Test creation of complex attachment",
+      summary: 'Test creation of complex attachment',
     },
     {
       bug_id: bugs[0],
-      content_type: "image/png",
+      content_type: 'image/png',
       creation_time: expect.anything(),
-      creator: "admin@nowhere.com",
-      data: Buffer.from("This is not a image."),
-      file_name: "image.png",
+      creator: 'admin@nowhere.com',
+      data: Buffer.from('This is not a image.'),
+      file_name: 'image.png',
       flags: [],
       id: 3,
       is_obsolete: false,
@@ -162,18 +162,18 @@ test("Get multiple attachments", async () => {
       is_private: false,
       last_change_time: expect.anything(),
       size: 20,
-      summary: "Test creation of multiple attachments at once",
+      summary: 'Test creation of multiple attachments at once',
     },
   ]);
 
   await expect(api.getBugAttachments(bugs[1] as number)).resolves.toEqual([
     {
       bug_id: bugs[1],
-      content_type: "image/png",
+      content_type: 'image/png',
       creation_time: expect.anything(),
-      creator: "admin@nowhere.com",
-      data: Buffer.from("This is not a image."),
-      file_name: "image.png",
+      creator: 'admin@nowhere.com',
+      data: Buffer.from('This is not a image.'),
+      file_name: 'image.png',
       flags: [],
       id: 4,
       is_obsolete: false,
@@ -181,7 +181,7 @@ test("Get multiple attachments", async () => {
       is_private: false,
       last_change_time: expect.anything(),
       size: 20,
-      summary: "Test creation of multiple attachments at once",
+      summary: 'Test creation of multiple attachments at once',
     },
   ]);
 });
@@ -190,9 +190,9 @@ test(`Edit single attachment`, async () => {
   await expect(
     api.updateAttachment(1, {
       ids: [1],
-      content_type: "text/plain",
-      comment: "new comment",
-      file_name: "new filename",
+      content_type: 'text/plain',
+      comment: 'new comment',
+      file_name: 'new filename',
       //   flags: [
       //     {
       //       id: 999,
@@ -205,22 +205,22 @@ test(`Edit single attachment`, async () => {
       is_obsolete: true,
       is_patch: true,
       // is_private: true,
-      summary: "new summary",
+      summary: 'new summary',
     }),
   ).resolves.toEqual([
     {
       changes: new Map([
-        ["file_name", { added: "new filename", removed: "image.png" }],
-        ["content_type", { added: "text/plain", removed: "image/png" }],
-        ["is_obsolete", { added: "1", removed: "0" }],
+        ['file_name', { added: 'new filename', removed: 'image.png' }],
+        ['content_type', { added: 'text/plain', removed: 'image/png' }],
+        ['is_obsolete', { added: '1', removed: '0' }],
         [
-          "summary",
+          'summary',
           {
-            added: "new summary",
-            removed: "Test creation of simple attachment",
+            added: 'new summary',
+            removed: 'Test creation of simple attachment',
           },
         ],
-        ["is_patch", { added: "1", removed: "0" }],
+        ['is_patch', { added: '1', removed: '0' }],
       ]),
       id: 1,
       last_change_time: expect.anything(),
@@ -228,18 +228,18 @@ test(`Edit single attachment`, async () => {
   ]);
 });
 
-test("Edit multiple attachments", async () => {
+test('Edit multiple attachments', async () => {
   await expect(
     api.updateAttachment(2, {
       ids: [2, 3],
-      content_type: "text/plain",
-      comment: "new comment",
-      file_name: "new filename",
+      content_type: 'text/plain',
+      comment: 'new comment',
+      file_name: 'new filename',
       // flags: [{ name: "new-flag", status: "?", new: true }],
       is_obsolete: true,
       is_patch: true,
       // is_private: true,
-      summary: "new summary",
+      summary: 'new summary',
     }),
   ).resolves.toEqual([
     {
