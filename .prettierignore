@@ -1,2 +1,13 @@
+# TypeScript build directory
 dist
+
+# Coverage directory used by tools like istanbul
 coverage
+*.lcov
+
+# Ignore built ts files
+__tests__/runner/*
+lib/**/*
+
+# Dependency directory
+node_modules

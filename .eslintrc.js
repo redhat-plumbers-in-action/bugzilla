@@ -1,10 +1,10 @@
 module.exports = {
   parserOptions: {
     tsconfigRootDir: __dirname,
-    project: ["./tsconfig.json"],
+    project: ['./tsconfig.json'],
   },
 
-  ignorePatterns: ["node_modules", "dist", "coverage"],
+  ignorePatterns: ['node_modules', 'dist', 'coverage'],
 
-  extends: [require.resolve("@mossop/config/node-ts/eslintrc")],
+  extends: [require.resolve('@mossop/config/node-ts/eslintrc')],
 };

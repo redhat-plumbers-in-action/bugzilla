@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable @typescript-eslint/no-redeclare */
-import type { DateTime } from "luxon";
+import type { DateTime } from 'luxon';
 
 import {
   int,
@@ -17,7 +17,7 @@ import {
   map,
   double,
   base64,
-} from "./validators";
+} from './validators';
 
 type int = number;
 type double = number;
@@ -376,7 +376,7 @@ export interface UpdatedBug {
   alias: string[];
   last_change_time: datetime;
   changes: Map<
-    Omit<keyof UpdateBugContent, "id_or_alias" | "ids" | "alias">,
+    Omit<keyof UpdateBugContent, 'id_or_alias' | 'ids' | 'alias'>,
     Changes
   >;
 }
@@ -477,7 +477,7 @@ export interface UpdatedAttachment {
   id: int;
   last_change_time: datetime;
   changes: Map<
-    Omit<keyof UpdateAttachmentContent, "attachment_id" | "ids">,
+    Omit<keyof UpdateAttachmentContent, 'attachment_id' | 'ids'>,
     Changes
   >;
 }

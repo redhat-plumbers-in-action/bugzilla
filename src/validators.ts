@@ -1,4 +1,4 @@
-import { DateTime } from "luxon";
+import { DateTime } from 'luxon';
 
 export type Validator<T> = (val: any) => T;
 
@@ -16,7 +16,7 @@ export function object<T>(
   excludes: string[] = [],
 ): Validator<T> {
   return (val: any): T => {
-    if (!val || typeof val != "object") {
+    if (!val || typeof val != 'object') {
       throw new Error(`Expected an object but received ${repr(val)}`);
     }
 
@@ -69,7 +69,7 @@ function typedValidator<T>(type: string): Validator<T> {
 }
 
 export function datetime(val: any): DateTime {
-  if (typeof val != "string") {
+  if (typeof val != 'string') {
     throw new Error(`Expected an ISO-8601 string but received ${repr(val)}`);
   }
 
@@ -81,20 +81,20 @@ export function datetime(val: any): DateTime {
   return dt;
 }
 
-export const boolean = typedValidator<boolean>("boolean");
-export const int = typedValidator<number>("number");
-export const double = typedValidator<number>("number");
-export const string = typedValidator<string>("string");
+export const boolean = typedValidator<boolean>('boolean');
+export const int = typedValidator<number>('number');
+export const double = typedValidator<number>('number');
+export const string = typedValidator<string>('string');
 
 export function base64(val: any): Buffer {
-  if (typeof val != "string") {
+  if (typeof val != 'string') {
     throw new Error(
       `Expected a base64 encoded string but received ${repr(val)}`,
     );
   }
 
   try {
-    return Buffer.from(val, "base64");
+    return Buffer.from(val, 'base64');
   } catch (_) {
     throw new Error(
       `Expected a base64 encoded string but received ${repr(val)}`,
@@ -147,7 +147,7 @@ export function maybeArray<T>(validator: Validator<T>): Validator<T | T[]> {
 }
 
 export function intString(val: any): number {
-  if (typeof val != "string") {
+  if (typeof val != 'string') {
     throw new Error(
       `Expected an integer as a string but received ${repr(val)}`,
     );
@@ -168,7 +168,7 @@ export function map<K, V>(
   valueValidator: Validator<V>,
 ): Validator<Map<K, V>> {
   return (val: any): Map<K, V> => {
-    if (!val || typeof val != "object") {
+    if (!val || typeof val != 'object') {
       throw new Error(`Expected an object but received ${repr(val)}`);
     }
 

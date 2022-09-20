@@ -1,10 +1,10 @@
-import { URL, URLSearchParams } from "url";
+import { URL, URLSearchParams } from 'url';
 
-import type { DateTime } from "luxon";
+import type { DateTime } from 'luxon';
 
-import type { BugzillaLink, SearchParams } from "./link";
-import { PublicLink, params, PasswordLink, ApiKeyLink } from "./link";
-import { FilteredQuery } from "./query";
+import type { BugzillaLink, SearchParams } from './link';
+import { PublicLink, params, PasswordLink, ApiKeyLink } from './link';
+import { FilteredQuery } from './query';
 import type {
   Bug,
   User,
@@ -18,7 +18,7 @@ import type {
   CreateAttachmentContent,
   UpdateAttachmentContent,
   UpdatedAttachment,
-} from "./types";
+} from './types';
 import {
   HistoryLookupSpec,
   BugSpec,
@@ -31,8 +31,8 @@ import {
   AttachmentsSpec,
   CreatedAttachmentSpec,
   UpdatedAttachmentTemplateSpec,
-} from "./types";
-import { array, object } from "./validators";
+} from './types';
+import { array, object } from './validators';
 
 export type {
   Bug,
@@ -42,7 +42,7 @@ export type {
   Flag,
   Comment,
   Attachment,
-} from "./types";
+} from './types';
 
 export default class BugzillaAPI {
   private readonly link: BugzillaLink;
@@ -73,13 +73,13 @@ export default class BugzillaAPI {
   }
 
   public async version(): Promise<string> {
-    let version = await this.link.get("version", object(VersionSpec));
+    let version = await this.link.get('version', object(VersionSpec));
 
     return version.version;
   }
 
   public whoami(): Promise<User> {
-    return this.link.get("whoami", object(UserSpec));
+    return this.link.get('whoami', object(UserSpec));
   }
 
   public async bugHistory(
@@ -90,7 +90,7 @@ export default class BugzillaAPI {
 
     if (since) {
       searchParams = new URLSearchParams();
-      searchParams.set("new_since", since.toISODate());
+      searchParams.set('new_since', since.toISODate());
     }
 
     let bugs = await this.link.get(
@@ -101,7 +101,7 @@ export default class BugzillaAPI {
 
     let [bug] = bugs.bugs;
     if (!bug) {
-      throw new Error("Bug not found.");
+      throw new Error('Bug not found.');
     }
 
     return bug.history;
@@ -115,14 +115,14 @@ export default class BugzillaAPI {
       ): Promise<Bug[]> => {
         let search = params(query);
         if (includes) {
-          search.set("include_fields", includes.join(","));
+          search.set('include_fields', includes.join(','));
         }
         if (excludes) {
-          search.set("exclude_fields", excludes.join(","));
+          search.set('exclude_fields', excludes.join(','));
         }
 
         let result = await this.link.get(
-          "bug",
+          'bug',
           object({
             bugs: array(object(BugSpec, includes, excludes)),
           }),
@@ -136,7 +136,7 @@ export default class BugzillaAPI {
 
   public getBugs(ids: (number | string)[]): FilteredQuery<Bug> {
     return this.searchBugs({
-      id: ids.join(","),
+      id: ids.join(','),
     });
   }
 
@@ -158,7 +158,7 @@ export default class BugzillaAPI {
 
     if (query instanceof URL) {
       searchParams = query.searchParams;
-    } else if (typeof query == "string" && query.startsWith("http")) {
+    } else if (typeof query == 'string' && query.startsWith('http')) {
       searchParams = new URL(query).searchParams;
     } else if (query instanceof URLSearchParams) {
       searchParams = query;
@@ -166,7 +166,7 @@ export default class BugzillaAPI {
       searchParams = new URLSearchParams(query);
     }
 
-    searchParams.delete("list_id");
+    searchParams.delete('list_id');
 
     return this.searchBugs(searchParams);
   }
@@ -200,7 +200,7 @@ export default class BugzillaAPI {
   public async createComment(
     bugId: number,
     comment: string,
-    options: Partial<Omit<CreateCommentContent, "comment">> = {},
+    options: Partial<Omit<CreateCommentContent, 'comment'>> = {},
   ): Promise<number> {
     const content = {
       comment,
@@ -214,17 +214,17 @@ export default class BugzillaAPI {
     );
 
     if (!commentStatus) {
-      throw new Error("Failed to create comment.");
+      throw new Error('Failed to create comment.');
     }
 
     return commentStatus.id;
   }
 
   public async createBug(bug: CreateBugContent): Promise<number> {
-    let bugStatus = await this.link.post("bug", object(CreatedBugSpec), bug);
+    let bugStatus = await this.link.post('bug', object(CreatedBugSpec), bug);
 
     if (!bugStatus) {
-      throw new Error("Failed to create bug.");
+      throw new Error('Failed to create bug.');
     }
 
     return bugStatus.id;
@@ -282,7 +282,7 @@ export default class BugzillaAPI {
     attachment: CreateAttachmentContent,
   ): Promise<number[]> {
     const dataBase64 = {
-      data: Buffer.from(attachment.data).toString("base64"),
+      data: Buffer.from(attachment.data).toString('base64'),
     };
 
     let attachmentStatus = await this.link.post(
@@ -292,7 +292,7 @@ export default class BugzillaAPI {
     );
 
     if (!attachmentStatus) {
-      throw new Error("Failed to create attachment.");
+      throw new Error('Failed to create attachment.');
     }
 
     return attachmentStatus.ids;

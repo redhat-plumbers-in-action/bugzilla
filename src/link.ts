@@ -1,8 +1,8 @@
-import { URLSearchParams, URL } from "url";
+import { URLSearchParams, URL } from 'url';
 
-import axios, { AxiosRequestConfig } from "axios";
-import { object, Validator } from "./validators";
-import { LoginResponseSpec } from "./types";
+import axios, { AxiosRequestConfig } from 'axios';
+import { object, Validator } from './validators';
+import { LoginResponseSpec } from './types';
 
 export type SearchParams =
   | Record<string, string>
@@ -25,7 +25,7 @@ interface ApiError {
 function isError(payload: unknown): payload is ApiError {
   // @ts-ignore
   // eslint-disable-next-line @typescript-eslint/no-unsafe-return
-  return payload && typeof payload == "object" && payload.error;
+  return payload && typeof payload == 'object' && payload.error;
 }
 
 async function performRequest<T>(
@@ -36,7 +36,7 @@ async function performRequest<T>(
     let response = await axios.request({
       ...config,
       headers: {
-        Accept: "application/json",
+        Accept: 'application/json',
         ...(config.headers ?? {}),
       },
     });
@@ -64,7 +64,7 @@ export abstract class BugzillaLink {
   protected readonly instance: URL;
 
   public constructor(instance: URL) {
-    this.instance = new URL("rest/", instance);
+    this.instance = new URL('rest/', instance);
   }
 
   protected abstract request<T>(
@@ -102,10 +102,10 @@ export abstract class BugzillaLink {
     return this.request(
       {
         url: this.buildURL(path, searchParams).toString(),
-        method: "POST",
+        method: 'POST',
         data: JSON.stringify(content),
         headers: {
-          "Content-Type": "application/json",
+          'Content-Type': 'application/json',
         },
       },
       validator,
@@ -121,10 +121,10 @@ export abstract class BugzillaLink {
     return this.request(
       {
         url: this.buildURL(path, searchParams).toString(),
-        method: "PUT",
+        method: 'PUT',
         data: JSON.stringify(content),
         headers: {
-          "Content-Type": "application/json",
+          'Content-Type': 'application/json',
         },
       },
       validator,
@@ -158,7 +158,7 @@ export class ApiKeyLink extends BugzillaLink {
         ...config,
         headers: {
           ...(config.headers ?? {}),
-          "X-BUGZILLA-API-KEY": this.apiKey,
+          'X-BUGZILLA-API-KEY': this.apiKey,
           // Red Hat Bugzilla uses Authorization header - https://bugzilla.redhat.com/docs/en/html/api/core/v1/general.html#authentication
           Authorization: `Bearer ${this.apiKey}`,
         },
@@ -186,7 +186,7 @@ export class PasswordLink extends BugzillaLink {
   private async login(): Promise<string> {
     let loginInfo = await performRequest(
       {
-        url: this.buildURL("login", {
+        url: this.buildURL('login', {
           login: this.username,
           password: this.password,
           restrict_login: String(this.restrictLogin),
@@ -211,7 +211,7 @@ export class PasswordLink extends BugzillaLink {
         ...config,
         headers: {
           ...(config.headers ?? {}),
-          "X-BUGZILLA-TOKEN": this.token,
+          'X-BUGZILLA-TOKEN': this.token,
         },
       },
       validator,

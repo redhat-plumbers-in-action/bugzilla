@@ -30,7 +30,7 @@ import BugzillaAPI from "bugzilla";
 let api = new BugzillaAPI(
   "https://bugzilla.mozilla.org",
   "<username>",
-  "<password>",
+  "<password>"
 );
 await api.version();
 ```
@@ -54,12 +54,12 @@ Or any advanced search which can be passed in a number of ways:
 ```javascript
 // You can just pass a full advanced search url:
 let bugs = await api.advancedSearch(
-  "https://bugzilla.mozilla.org/buglist.cgi?email1=dtownsend%40mozilla.com&emailassigned_to1=1&resolution=---&emailtype1=exact&list_id=15603348",
+  "https://bugzilla.mozilla.org/buglist.cgi?email1=dtownsend%40mozilla.com&emailassigned_to1=1&resolution=---&emailtype1=exact&list_id=15603348"
 );
 
 // Or just the query string part:
 let bugs = await api.advancedSearch(
-  "email1=dtownsend%40mozilla.com&emailassigned_to1=1&resolution=---&emailtype1=exact&list_id=15603348",
+  "email1=dtownsend%40mozilla.com&emailassigned_to1=1&resolution=---&emailtype1=exact&list_id=15603348"
 );
 
 // Or as a record:
@@ -115,7 +115,7 @@ Return value is array of Comment objects.
 let comment = await api.createComment(
   123456,
   "This is new comment on bug #123456",
-  { is_private: false },
+  { is_private: false }
 );
 ```
 
