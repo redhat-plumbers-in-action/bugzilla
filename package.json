@@ -36,7 +36,7 @@
   "devDependencies": {
     "@mossop/config": "1.0.6",
     "@types/jest": "27.5.2",
-    "@types/luxon": "3.0.1",
+    "@types/luxon": "3.0.2",
     "@types/node": "18.7.16",
     "@typescript-eslint/eslint-plugin": "5.38.0",
     "@typescript-eslint/parser": "5.38.0",
