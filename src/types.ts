@@ -123,7 +123,7 @@ export interface Bug {
   qa_contact: string;
   qa_contact_detail?: User;
   resolution: string;
-  see_also: string[];
+  see_also: string[] | undefined;
   severity: string;
   status: string;
   summary: string;
@@ -164,7 +164,7 @@ export const BugSpec: ObjectSpec<Bug> = {
   qa_contact: string,
   qa_contact_detail: optional(object(UserSpec)),
   resolution: string,
-  see_also: array(string),
+  see_also: optional(array(string)),
   severity: string,
   status: string,
   summary: string,
