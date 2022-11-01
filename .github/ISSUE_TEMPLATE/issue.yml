@@ -1,5 +1,4 @@
 ---
-
 name: Report an Issue
 description: Issue form for reporting issues and requesting new features.
 
@@ -14,9 +13,9 @@ body:
       label: Type of issue
       multiple: false
       options:
-        - 'Bug Report'
-        - 'Feature Request'
-        - 'other'
+        - "Bug Report"
+        - "Feature Request"
+        - "other"
     validations:
       required: false
 
