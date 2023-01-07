@@ -37,7 +37,7 @@
     "@mossop/config": "1.0.6",
     "@types/jest": "27.5.2",
     "@types/luxon": "3.2.0",
-    "@types/node": "18.11.11",
+    "@types/node": "18.11.18",
     "@typescript-eslint/eslint-plugin": "5.48.0",
     "@typescript-eslint/parser": "5.48.0",
     "eslint": "8.29.0",
