@@ -4,6 +4,9 @@
 
 # [3.1.0](https://github.com/redhat-plumbers-in-action/bugzilla/compare/v3.0.0...v3.1.0)
 
+- Security fixes (xmldom, luxon)
+- Improved automation and CI
+
 # [3.0.0](https://github.com/redhat-plumbers-in-action/bugzilla/compare/v2.2.0...v3.0.0)
 
 - Run tests against a live Bugzilla instance.
