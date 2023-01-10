@@ -1,6 +1,8 @@
 # Change Log
 
-# [Next](https://github.com/redhat-plumbers-in-action/bugzilla/compare/v3.0.0...main)
+# [Next](https://github.com/redhat-plumbers-in-action/bugzilla/compare/v3.1.0...main)
+
+# [3.1.0](https://github.com/redhat-plumbers-in-action/bugzilla/compare/v3.0.0...v3.1.0)
 
 # [3.0.0](https://github.com/redhat-plumbers-in-action/bugzilla/compare/v2.2.0...v3.0.0)
 
