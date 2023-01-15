@@ -58,7 +58,6 @@ jobs:
 
   differential-shellcheck:
     name: Differential ShellCheck
-    if: github.event_name == 'pull_request'
     runs-on: ubuntu-latest
 
     steps:
@@ -67,7 +66,16 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Differential ShellCheck
+      - id: ShellCheck
+        name: Differential ShellCheck
         uses: redhat-plumbers-in-action/differential-shellcheck@v4
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
+
+      - if: ${{ always() }}
+        name: Upload artifact with ShellCheck defects in SARIF format
+        uses: actions/upload-artifact@v3
+        with:
+          name: Differential ShellCheck SARIF
+          path: ${{ steps.ShellCheck.outputs.sarif }}
+      
