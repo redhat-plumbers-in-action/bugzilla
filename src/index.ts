@@ -1,6 +1,6 @@
-import { URL, URLSearchParams } from 'url';
-
 import type { DateTime } from 'luxon';
+import { URL, URLSearchParams } from 'url';
+import { z } from 'zod';
 
 import type { BugzillaLink, SearchParams } from './link';
 import { PublicLink, params, PasswordLink, ApiKeyLink } from './link';
@@ -20,19 +20,18 @@ import type {
   UpdatedAttachment,
 } from './types';
 import {
-  HistoryLookupSpec,
-  BugSpec,
-  UserSpec,
-  VersionSpec,
-  CommentsSpec,
-  CreatedCommentSpec,
-  CreatedBugSpec,
-  UpdatedBugTemplateSpec,
-  AttachmentsSpec,
-  CreatedAttachmentSpec,
-  UpdatedAttachmentTemplateSpec,
+  historyLookupSchema,
+  bugSchema,
+  userSchema,
+  versionSchema,
+  commentsSchema,
+  createdCommentSchema,
+  createdBugSchema,
+  updatedBugTemplateSchema,
+  attachmentsSchema,
+  createdAttachmentSchema,
+  updatedAttachmentTemplateSchema,
 } from './types';
-import { array, object } from './validators';
 
 export type {
   Bug,
@@ -73,13 +72,13 @@ export default class BugzillaAPI {
   }
 
   public async version(): Promise<string> {
-    let version = await this.link.get('version', object(VersionSpec));
+    let version = await this.link.get('version', versionSchema);
 
     return version.version;
   }
 
   public whoami(): Promise<User> {
-    return this.link.get('whoami', object(UserSpec));
+    return this.link.get('whoami', userSchema);
   }
 
   public async bugHistory(
@@ -95,7 +94,7 @@ export default class BugzillaAPI {
 
     let bugs = await this.link.get(
       `bug/${bugId}/history`,
-      object(HistoryLookupSpec),
+      historyLookupSchema,
       searchParams,
     );
 
@@ -123,9 +122,13 @@ export default class BugzillaAPI {
 
         let result = await this.link.get(
           'bug',
-          object({
-            bugs: array(object(BugSpec, includes, excludes)),
+          z.object({
+            // TODO: pick includes and omit excludes | transform???
+            bugs: z.array(bugSchema),
           }),
+          // object({
+          //   bugs: array(object(BugSpec, includes, excludes)),
+          // }),
           search,
         );
 
@@ -174,7 +177,7 @@ export default class BugzillaAPI {
   public async getComment(commentId: number): Promise<Comment | undefined> {
     let comment = await this.link.get(
       `bug/comment/${commentId}`,
-      object(CommentsSpec),
+      commentsSchema,
     );
 
     if (!comment) {
@@ -185,10 +188,7 @@ export default class BugzillaAPI {
   }
 
   public async getBugComments(bugId: number): Promise<Comment[] | undefined> {
-    let comments = await this.link.get(
-      `bug/${bugId}/comment`,
-      object(CommentsSpec),
-    );
+    let comments = await this.link.get(`bug/${bugId}/comment`, commentsSchema);
 
     if (!comments) {
       throw new Error(`Failed to get comments of bug #${bugId}.`);
@@ -209,7 +209,7 @@ export default class BugzillaAPI {
 
     let commentStatus = await this.link.post(
       `bug/${bugId}/comment`,
-      object(CreatedCommentSpec),
+      createdCommentSchema,
       content,
     );
 
@@ -221,7 +221,7 @@ export default class BugzillaAPI {
   }
 
   public async createBug(bug: CreateBugContent): Promise<number> {
-    let bugStatus = await this.link.post('bug', object(CreatedBugSpec), bug);
+    let bugStatus = await this.link.post('bug', createdBugSchema, bug);
 
     if (!bugStatus) {
       throw new Error('Failed to create bug.');
@@ -236,7 +236,7 @@ export default class BugzillaAPI {
   ): Promise<UpdatedBug[]> {
     let response = await this.link.put(
       `bug/${bugIdOrAlias}`,
-      object(UpdatedBugTemplateSpec),
+      updatedBugTemplateSchema,
       data,
     );
 
@@ -252,7 +252,7 @@ export default class BugzillaAPI {
   ): Promise<Attachment | undefined> {
     let attachment = await this.link.get(
       `bug/attachment/${attachmentId}`,
-      object(AttachmentsSpec),
+      attachmentsSchema,
     );
 
     if (!attachment) {
@@ -267,7 +267,7 @@ export default class BugzillaAPI {
   ): Promise<Attachment[] | undefined> {
     let attachments = await this.link.get(
       `bug/${bugId}/attachment`,
-      object(AttachmentsSpec),
+      attachmentsSchema,
     );
 
     if (!attachments) {
@@ -287,7 +287,7 @@ export default class BugzillaAPI {
 
     let attachmentStatus = await this.link.post(
       `bug/${bugId}/attachment`,
-      object(CreatedAttachmentSpec),
+      createdAttachmentSchema,
       { ...attachment, ...dataBase64 },
     );
 
@@ -304,7 +304,7 @@ export default class BugzillaAPI {
   ): Promise<UpdatedAttachment[]> {
     let response = await this.link.put(
       `bug/attachment/${attachmentId}`,
-      object(UpdatedAttachmentTemplateSpec),
+      updatedAttachmentTemplateSchema,
       data,
     );
 
