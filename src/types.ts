@@ -144,9 +144,29 @@ export const commentsTemplateSchema = z.object({
 
 export type CommentsTemplate = z.infer<typeof commentsTemplateSchema>;
 
+function castObjectToMap<K extends z.ZodTypeAny, V extends z.ZodTypeAny>(
+  keyValidator: K,
+  valueValidator: V,
+) {
+  return z.record(keyValidator, valueValidator).transform(record => {
+    let result = new Map<z.infer<K>, z.infer<V>>();
+
+    for (let [k, v] of Object.entries(record)) {
+      // if (typeof k === 'number') {
+      //   result.set(k, v);
+      // }
+      if (k?.toString()) {
+        result.set(k.toString(), v);
+      }
+    }
+
+    return result;
+  });
+}
+
 export const commentsSchema = z.object({
-  bugs: z.map(z.number(), commentsTemplateSchema),
-  comments: z.map(z.number(), commentSchema),
+  bugs: castObjectToMap(z.number(), commentsTemplateSchema),
+  comments: castObjectToMap(z.number(), commentSchema),
 });
 
 export type Comments = z.infer<typeof commentsSchema>;
@@ -222,7 +242,7 @@ export const updateBugContentSchema = z.object({
   cc: updateListSchema(z.string()).optional(),
   is_cc_accessible: z.boolean().optional(),
   comment: createCommentContentSchema.optional(),
-  comment_is_private: z.map(z.number(), z.boolean()).optional(),
+  comment_is_private: castObjectToMap(z.number(), z.boolean()).optional(),
   comment_tags: z.array(z.string()).optional(),
   component: z.string().optional(),
   deadline: z.string().datetime().optional(),
@@ -262,7 +282,7 @@ export const updatedBugSchema = z.object({
   id: z.number(),
   alias: z.array(z.string()),
   last_change_time: z.string().datetime(),
-  changes: z.map(z.string(), changesSchema),
+  changes: castObjectToMap(z.string(), changesSchema),
 });
 
 export type UpdatedBug = z.infer<typeof updatedBugSchema>;
@@ -294,8 +314,8 @@ export const attachmentSchema = z.object({
 export type Attachment = z.infer<typeof attachmentSchema>;
 
 export const attachmentsSchema = z.object({
-  bugs: z.map(z.number(), z.array(attachmentSchema)),
-  attachments: z.map(z.number(), attachmentSchema),
+  bugs: castObjectToMap(z.number(), z.array(attachmentSchema)),
+  attachments: castObjectToMap(z.number(), attachmentSchema),
 });
 
 export type Attachments = z.infer<typeof attachmentsSchema>;
@@ -343,7 +363,7 @@ export type UpdateAttachmentContent = z.infer<
 export const updatedAttachmentSchema = z.object({
   id: z.number(),
   last_change_time: z.string().datetime(),
-  changes: z.map(z.string(), changesSchema),
+  changes: castObjectToMap(z.string(), changesSchema),
 });
 
 export type UpdatedAttachment = z.infer<typeof updatedAttachmentSchema>;
