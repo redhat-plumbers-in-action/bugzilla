@@ -1,5 +1,5 @@
 import { URLSearchParams, URL } from 'url';
-import { z } from 'zod';
+import { z, ZodSchema } from 'zod';
 
 import axios, { AxiosRequestConfig } from 'axios';
 import { loginResponseSchema } from './types';
@@ -28,10 +28,10 @@ function isError(payload: unknown): payload is ApiError {
   return payload && typeof payload == 'object' && payload.error;
 }
 
-async function performRequest<TValues>(
-  config: AxiosRequestConfig,
-  schema: z.Schema<TValues>,
-): Promise<TValues> {
+async function performRequest<
+  TSchema extends ZodSchema,
+  KValues extends z.infer<TSchema>,
+>(config: AxiosRequestConfig, schema: TSchema): Promise<KValues> {
   try {
     let response = await axios.request({
       ...config,
@@ -67,10 +67,10 @@ export abstract class BugzillaLink {
     this.instance = new URL('rest/', instance);
   }
 
-  protected abstract request<TValues>(
-    config: AxiosRequestConfig,
-    schema: z.Schema<TValues>,
-  ): Promise<TValues>;
+  protected abstract request<
+    TSchema extends ZodSchema,
+    KValues extends z.infer<TSchema>,
+  >(config: AxiosRequestConfig, schema: TSchema): Promise<KValues>;
 
   protected buildURL(path: string, query?: SearchParams): URL {
     let url = new URL(path, this.instance);
@@ -80,11 +80,11 @@ export abstract class BugzillaLink {
     return url;
   }
 
-  public async get<TValues>(
+  public async get<TSchema extends ZodSchema, KValues extends z.infer<TSchema>>(
     path: string,
-    schema: z.Schema<TValues>,
+    schema: TSchema,
     searchParams?: SearchParams,
-  ): Promise<TValues> {
+  ): Promise<KValues> {
     return this.request(
       {
         url: this.buildURL(path, searchParams).toString(),
@@ -93,12 +93,16 @@ export abstract class BugzillaLink {
     );
   }
 
-  public async post<R, TValues>(
+  public async post<
+    R,
+    TSchema extends ZodSchema,
+    KValues extends z.infer<TSchema>,
+  >(
     path: string,
-    schema: z.Schema<TValues>,
+    schema: TSchema,
     content: R,
     searchParams?: SearchParams,
-  ): Promise<TValues> {
+  ): Promise<KValues> {
     return this.request(
       {
         url: this.buildURL(path, searchParams).toString(),
@@ -112,12 +116,16 @@ export abstract class BugzillaLink {
     );
   }
 
-  public async put<R, TValues>(
+  public async put<
+    R,
+    TSchema extends ZodSchema,
+    KValues extends z.infer<TSchema>,
+  >(
     path: string,
-    schema: z.Schema<TValues>,
+    schema: TSchema,
     content: R,
     searchParams?: SearchParams,
-  ): Promise<TValues> {
+  ): Promise<KValues> {
     return this.request(
       {
         url: this.buildURL(path, searchParams).toString(),
@@ -133,10 +141,10 @@ export abstract class BugzillaLink {
 }
 
 export class PublicLink extends BugzillaLink {
-  protected async request<TValues>(
-    config: AxiosRequestConfig,
-    schema: z.Schema<TValues>,
-  ): Promise<TValues> {
+  protected async request<
+    TSchema extends ZodSchema,
+    KValues extends z.infer<TSchema>,
+  >(config: AxiosRequestConfig, schema: TSchema): Promise<KValues> {
     return performRequest(config, schema);
   }
 }
@@ -152,10 +160,10 @@ export class ApiKeyLink extends BugzillaLink {
     super(instance);
   }
 
-  protected async request<TValues>(
-    config: AxiosRequestConfig,
-    schema: z.Schema<TValues>,
-  ): Promise<TValues> {
+  protected async request<
+    TSchema extends ZodSchema,
+    KValues extends z.infer<TSchema>,
+  >(config: AxiosRequestConfig, schema: TSchema): Promise<KValues> {
     return performRequest(
       {
         ...config,
@@ -201,10 +209,10 @@ export class PasswordLink extends BugzillaLink {
     return loginInfo.token;
   }
 
-  protected async request<TValues>(
-    config: AxiosRequestConfig,
-    schema: z.Schema<TValues>,
-  ): Promise<TValues> {
+  protected async request<
+    TSchema extends ZodSchema,
+    KValues extends z.infer<TSchema>,
+  >(config: AxiosRequestConfig, schema: TSchema): Promise<KValues> {
     if (!this.token) {
       this.token = await this.login();
     }

@@ -68,6 +68,8 @@ beforeAll(async () => {
 });
 
 test('Get single attachment', async () => {
+  await expect(api.getAttachment(1)).resolves.toMatchInlineSnapshot();
+
   await expect(api.getAttachment(1)).resolves.toEqual({
     bug_id: expect.anything(),
     content_type: 'image/png',
