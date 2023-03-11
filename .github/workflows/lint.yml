@@ -78,4 +78,3 @@ jobs:
         with:
           name: Differential ShellCheck SARIF
           path: ${{ steps.ShellCheck.outputs.sarif }}
-      
