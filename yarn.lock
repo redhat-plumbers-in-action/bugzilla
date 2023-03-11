@@ -1333,11 +1333,13 @@ __metadata:
     "@types/node": "npm:20.12.11"
     axios: "npm:1.6.8"
     jest: "npm:29.7.0"
+    js-base64: "npm:3.7.5"
     luxon: "npm:3.4.4"
     msw: "npm:2.3.0"
     prettier: "npm:3.2.5"
     ts-jest: "npm:29.1.2"
     typescript: "npm:5.4.5"
+    zod: "npm:3.21.4"
   languageName: unknown
   linkType: soft
 
@@ -2685,6 +2687,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"js-base64@npm:3.7.5":
+  version: 3.7.5
+  resolution: "js-base64@npm:3.7.5"
+  checksum: 10c0/641f4979fc5cf90b897e265a158dfcbef483219c76bc9a755875cb03ff73efdb1bd468a42e0343e05a3af7226f9d333c08ee4bb10f42a4c526988845ce1dcf1b
+  languageName: node
+  linkType: hard
+
 "js-tokens@npm:^4.0.0":
   version: 4.0.0
   resolution: "js-tokens@npm:4.0.0"
@@ -3971,5 +3980,12 @@ __metadata:
   version: 0.1.0
   resolution: "yocto-queue@npm:0.1.0"
   checksum: 10c0/dceb44c28578b31641e13695d200d34ec4ab3966a5729814d5445b194933c096b7ced71494ce53a0e8820685d1d010df8b2422e5bf2cdea7e469d97ffbea306f
+  languageName: node
+  linkType: hard
+
+"zod@npm:3.21.4":
+  version: 3.21.4
+  resolution: "zod@npm:3.21.4"
+  checksum: 10c0/161e8cf7aea38a99244d65da4a9477d9d966f6a533e503feaa20ff7968a9691065c38c6f1eab5cbbdc8374142fff4a05c9cacb8479803ab50ab6a6ca80e5d624
   languageName: node
   linkType: hard

@@ -1,8 +1,8 @@
 import { URLSearchParams, URL } from 'url';
+import { z } from 'zod';
 
 import axios, { AxiosRequestConfig } from 'axios';
-import { object, Validator } from './validators';
-import { LoginResponseSpec } from './types';
+import { loginResponseSchema } from './types';
 
 export type SearchParams =
   | Record<string, string>
@@ -28,10 +28,10 @@ function isError(payload: unknown): payload is ApiError {
   return payload && typeof payload == 'object' && payload.error;
 }
 
-async function performRequest<T>(
+async function performRequest<TValues>(
   config: AxiosRequestConfig,
-  validator: Validator<T>,
-): Promise<T> {
+  schema: z.Schema<TValues>,
+): Promise<TValues> {
   try {
     let response = await axios.request({
       ...config,
@@ -45,7 +45,7 @@ async function performRequest<T>(
       throw new Error(response.data.message);
     }
 
-    return validator(response.data);
+    return schema.parse(response.data);
   } catch (e: unknown) {
     if (axios.isAxiosError(e)) {
       throw new Error(e.message);
@@ -67,10 +67,10 @@ export abstract class BugzillaLink {
     this.instance = new URL('rest/', instance);
   }
 
-  protected abstract request<T>(
+  protected abstract request<TValues>(
     config: AxiosRequestConfig,
-    validator: Validator<T>,
-  ): Promise<T>;
+    schema: z.Schema<TValues>,
+  ): Promise<TValues>;
 
   protected buildURL(path: string, query?: SearchParams): URL {
     let url = new URL(path, this.instance);
@@ -80,25 +80,25 @@ export abstract class BugzillaLink {
     return url;
   }
 
-  public async get<T>(
+  public async get<TValues>(
     path: string,
-    validator: Validator<T>,
+    schema: z.Schema<TValues>,
     searchParams?: SearchParams,
-  ): Promise<T> {
+  ): Promise<TValues> {
     return this.request(
       {
         url: this.buildURL(path, searchParams).toString(),
       },
-      validator,
+      schema,
     );
   }
 
-  public async post<R, T>(
+  public async post<R, TValues>(
     path: string,
-    validator: Validator<T>,
+    schema: z.Schema<TValues>,
     content: R,
     searchParams?: SearchParams,
-  ): Promise<T> {
+  ): Promise<TValues> {
     return this.request(
       {
         url: this.buildURL(path, searchParams).toString(),
@@ -108,16 +108,16 @@ export abstract class BugzillaLink {
           'Content-Type': 'application/json',
         },
       },
-      validator,
+      schema,
     );
   }
 
-  public async put<R, T>(
+  public async put<R, TValues>(
     path: string,
-    validator: Validator<T>,
+    schema: z.Schema<TValues>,
     content: R,
     searchParams?: SearchParams,
-  ): Promise<T> {
+  ): Promise<TValues> {
     return this.request(
       {
         url: this.buildURL(path, searchParams).toString(),
@@ -127,17 +127,17 @@ export abstract class BugzillaLink {
           'Content-Type': 'application/json',
         },
       },
-      validator,
+      schema,
     );
   }
 }
 
 export class PublicLink extends BugzillaLink {
-  protected async request<T>(
+  protected async request<TValues>(
     config: AxiosRequestConfig,
-    validator: Validator<T>,
-  ): Promise<T> {
-    return performRequest(config, validator);
+    schema: z.Schema<TValues>,
+  ): Promise<TValues> {
+    return performRequest(config, schema);
   }
 }
 
@@ -152,10 +152,10 @@ export class ApiKeyLink extends BugzillaLink {
     super(instance);
   }
 
-  protected async request<T>(
+  protected async request<TValues>(
     config: AxiosRequestConfig,
-    validator: Validator<T>,
-  ): Promise<T> {
+    schema: z.Schema<TValues>,
+  ): Promise<TValues> {
     return performRequest(
       {
         ...config,
@@ -166,7 +166,7 @@ export class ApiKeyLink extends BugzillaLink {
           Authorization: `Bearer ${this.apiKey}`,
         },
       },
-      validator,
+      schema,
     );
   }
 }
@@ -195,16 +195,16 @@ export class PasswordLink extends BugzillaLink {
           restrict_login: String(this.restrictLogin),
         }).toString(),
       },
-      object(LoginResponseSpec),
+      loginResponseSchema,
     );
 
     return loginInfo.token;
   }
 
-  protected async request<T>(
+  protected async request<TValues>(
     config: AxiosRequestConfig,
-    validator: Validator<T>,
-  ): Promise<T> {
+    schema: z.Schema<TValues>,
+  ): Promise<TValues> {
     if (!this.token) {
       this.token = await this.login();
     }
@@ -217,7 +217,7 @@ export class PasswordLink extends BugzillaLink {
           'X-BUGZILLA-TOKEN': this.token,
         },
       },
-      validator,
+      schema,
     );
   }
 }

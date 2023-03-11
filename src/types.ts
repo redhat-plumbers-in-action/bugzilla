@@ -1,498 +1,355 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable @typescript-eslint/no-redeclare */
-import type { DateTime } from 'luxon';
+import { Base64 } from 'js-base64';
+import { z } from 'zod';
 
-import {
-  int,
-  string,
-  array,
-  object,
-  boolean,
-  datetime,
-  nullable,
-  optional,
-  maybeArray,
-  ObjectSpec,
-  intString,
-  map,
-  double,
-  base64,
-} from './validators';
+export const loginResponseSchema = z.object({
+  id: z.number(),
+  token: z.string(),
+});
 
-type int = number;
-type double = number;
-type datetime = DateTime;
+export type LoginResponse = z.infer<typeof loginResponseSchema>;
 
-export interface LoginResponse {
-  id: int;
-  token: string;
+export const versionSchema = z.object({
+  version: z.string(),
+});
+
+export type Version = z.infer<typeof versionSchema>;
+
+export const userSchema = z.object({
+  id: z.number(),
+  name: z.string(),
+  real_name: z.string(),
+});
+
+export type User = z.infer<typeof userSchema>;
+
+export const setFlagSchema = z.object({
+  status: z.string(),
+  name: z.string().optional(),
+  type_id: z.number().optional(),
+  requestee: z.string().optional(),
+});
+
+export type SetFlag = z.infer<typeof setFlagSchema>;
+
+export const updateFlagSchema = setFlagSchema.extend({
+  id: z.number().optional(),
+  new: z.boolean().optional(),
+});
+
+export type UpdateFlag = z.infer<typeof updateFlagSchema>;
+
+export const flagSchema = setFlagSchema.extend({
+  id: z.number(),
+  creation_date: z.string().datetime(),
+  modification_date: z.string().datetime(),
+  setter: z.string(),
+});
+
+export type Flag = z.infer<typeof flagSchema>;
+
+export const bugSchema = z.object({
+  alias: z.union([z.string(), z.array(z.string()), z.null()]),
+  assigned_to: z.string(),
+  assigned_to_detail: userSchema,
+  blocks: z.array(z.number()),
+  cc: z.array(z.string()),
+  cc_detail: z.array(userSchema),
+  classification: z.string(),
+  component: z.union([z.string(), z.array(z.string())]),
+  creation_time: z.string().datetime(),
+  creator: z.string(),
+  creator_detail: userSchema,
+  depends_on: z.array(z.number()),
+  dupe_of: z.union([z.number(), z.null(), z.null()]),
+  flags: z.union([z.array(flagSchema), z.undefined()]),
+  groups: z.array(z.string()),
+  id: z.number(),
+  is_cc_accessible: z.boolean(),
+  is_confirmed: z.boolean(),
+  is_open: z.boolean(),
+  is_creator_accessible: z.boolean(),
+  keywords: z.array(z.string()),
+  last_change_time: z.string().datetime(),
+  op_sys: z.string(),
+  platform: z.string(),
+  priority: z.string(),
+  product: z.string(),
+  qa_contact: z.string(),
+  qa_contact_detail: userSchema.optional(),
+  resolution: z.string(),
+  see_also: z.union([z.array(z.string()), z.undefined()]),
+  severity: z.string(),
+  status: z.string(),
+  summary: z.string(),
+  target_milestone: z.string(),
+  update_token: z.string().optional(),
+  url: z.string(),
+  version: z.union([z.string(), z.array(z.string())]),
+  whiteboard: z.string(),
+});
+
+export type Bug = z.infer<typeof bugSchema>;
+
+export const changeSchema = z.object({
+  field_name: z.string(),
+  removed: z.string(),
+  added: z.string(),
+  attachment_id: z.number().optional(),
+});
+
+export type Change = z.infer<typeof changeSchema>;
+
+export const historySchema = z.object({
+  when: z.string().datetime(),
+  who: z.string(),
+  changes: z.array(changeSchema),
+});
+
+export type History = z.infer<typeof historySchema>;
+
+export const bugHistorySchema = z.object({
+  id: z.number(),
+  alias: z.array(z.string()),
+  history: z.array(historySchema),
+});
+
+export type BugHistory = z.infer<typeof bugHistorySchema>;
+
+export const historyLookupSchema = z.object({
+  bugs: z.array(bugHistorySchema),
+});
+
+export type HistoryLookup = z.infer<typeof historyLookupSchema>;
+
+export const commentSchema = z.object({
+  attachment_id: z.union([z.number(), z.null()]).optional(),
+  bug_id: z.number(),
+  count: z.number(),
+  creation_time: z.string().datetime(),
+  creator: z.string(),
+  id: z.number(),
+  is_private: z.boolean(),
+  tags: z.array(z.string()),
+  time: z.string().datetime(),
+  text: z.string(),
+});
+
+export type Comment = z.infer<typeof commentSchema>;
+
+export const commentsTemplateSchema = z.object({
+  comments: z.array(commentSchema),
+});
+
+export type CommentsTemplate = z.infer<typeof commentsTemplateSchema>;
+
+export const commentsSchema = z.object({
+  bugs: z.map(z.number(), commentsTemplateSchema),
+  comments: z.map(z.number(), commentSchema),
+});
+
+export type Comments = z.infer<typeof commentsSchema>;
+
+export const createCommentContentSchema = z.object({
+  comment: z.string(),
+  is_private: z.boolean(),
+});
+
+export type CreateCommentContent = z.infer<typeof createCommentContentSchema>;
+
+export const createdCommentSchema = z.object({
+  id: z.number(),
+});
+
+export type CreatedComment = z.infer<typeof createdCommentSchema>;
+
+export const createBugContentSchema = z.object({
+  product: z.string(),
+  component: z.string(),
+  summary: z.string(),
+  version: z.string(),
+  description: z.string(),
+  op_sys: z.string(),
+  platform: z.string(),
+  priority: z.string(),
+  severity: z.string(),
+  alias: z.array(z.string()).optional(),
+  assigned_to: z.string().optional(),
+  cc: z.array(z.string()).optional(),
+  comment_is_private: z.boolean().optional(),
+  comment_tags: z.array(z.string()).optional(),
+  groups: z.array(z.string()).optional(),
+  keywords: z.array(z.string()).optional(),
+  qa_contact: z.string().optional(),
+  status: z.string().optional(),
+  resolution: z.string().optional(),
+  target_milestone: z.string().optional(),
+  flags: z.array(setFlagSchema).optional(),
+});
+
+export type CreateBugContent = z.infer<typeof createBugContentSchema>;
+
+export const createdBugSchema = z.object({
+  id: z.number(),
+});
+
+export type CreatedBug = z.infer<typeof createdBugSchema>;
+
+function updateListSchema<T extends z.ZodTypeAny>(itemSchema: T) {
+  return z.object({
+    add: z.array(itemSchema).optional(),
+    remove: z.array(itemSchema).optional(),
+  });
 }
 
-export const LoginResponseSpec: ObjectSpec<LoginResponse> = {
-  id: int,
-  token: string,
-};
-
-export interface Version {
-  version: string;
+function updateOrReplaceListSchema<T extends z.ZodTypeAny>(itemSchema: T) {
+  return z.union([
+    updateListSchema(itemSchema),
+    z.object({
+      set: z.array(itemSchema).optional(),
+    }),
+  ]);
 }
 
-export const VersionSpec: ObjectSpec<Version> = {
-  version: string,
-};
+export const updateBugContentSchema = z.object({
+  id_or_alias: z.union([z.number(), z.string(), z.array(z.string())]),
+  ids: z.array(z.union([z.number(), z.string()])),
+  alias: updateOrReplaceListSchema(z.string()),
+  assigned_to: z.string().optional(),
+  blocks: updateOrReplaceListSchema(z.number()).optional(),
+  depends_on: updateOrReplaceListSchema(z.number()).optional(),
+  cc: updateListSchema(z.string()).optional(),
+  is_cc_accessible: z.boolean().optional(),
+  comment: createCommentContentSchema.optional(),
+  comment_is_private: z.map(z.number(), z.boolean()).optional(),
+  comment_tags: z.array(z.string()).optional(),
+  component: z.string().optional(),
+  deadline: z.string().datetime().optional(),
+  dupe_of: z.number().optional(),
+  estimated_time: z.number().optional(),
+  flags: z.array(updateFlagSchema).optional(),
+  groups: updateListSchema(z.string()).optional(),
+  keywords: updateOrReplaceListSchema(z.string()).optional(),
+  op_sys: z.string().optional(),
+  platform: z.string().optional(),
+  priority: z.string().optional(),
+  product: z.string().optional(),
+  qa_contact: z.string().optional(),
+  is_creator_accessible: z.boolean().optional(),
+  remaining_time: z.number().optional(),
+  see_also: updateListSchema(z.string()).optional(),
+  severity: z.string().optional(),
+  status: z.string().optional(),
+  summary: z.string().optional(),
+  target_milestone: z.string().optional(),
+  url: z.string().optional(),
+  version: z.string().optional(),
+  whiteboard: z.string().optional(),
+  work_time: z.number().optional(),
+});
 
-export interface User {
-  id: int;
-  name: string;
-  real_name: string;
-}
+export type UpdateBugContent = z.infer<typeof updateBugContentSchema>;
 
-export const UserSpec: ObjectSpec<User> = {
-  id: int,
-  name: string,
-  real_name: string,
-};
+export const changesSchema = z.object({
+  added: z.string(),
+  removed: z.string(),
+});
 
-export interface SetFlag {
-  status: string;
-  name?: string;
-  type_id?: int;
-  requestee?: string;
-}
+export type Changes = z.infer<typeof changesSchema>;
 
-export const SetFlagSpec: ObjectSpec<SetFlag> = {
-  status: string,
-  name: optional(string),
-  type_id: optional(int),
-  requestee: optional(string),
-};
+export const updatedBugSchema = z.object({
+  id: z.number(),
+  alias: z.array(z.string()),
+  last_change_time: z.string().datetime(),
+  changes: z.map(z.string(), changesSchema),
+});
 
-export interface UpdateFlag extends SetFlag {
-  id?: int;
-  new?: boolean;
-}
+export type UpdatedBug = z.infer<typeof updatedBugSchema>;
 
-export const UpdateFlagSpec: ObjectSpec<UpdateFlag> = {
-  ...SetFlagSpec,
-  id: optional(int),
-  new: optional(boolean),
-};
+export const updatedBugTemplateSchema = z.object({
+  bugs: z.array(updatedBugSchema),
+});
 
-export interface Flag extends SetFlag {
-  id: int;
-  creation_date: datetime;
-  modification_date: datetime;
-  setter: string;
-}
+export type UpdatedBugTemplate = z.infer<typeof updatedBugTemplateSchema>;
 
-export const FlagSpec: ObjectSpec<Flag> = {
-  ...SetFlagSpec,
-  id: int,
-  creation_date: datetime,
-  modification_date: datetime,
-  setter: string,
-};
+export const attachmentSchema = z.object({
+  // TODO: it should probably return a Buffer instead of a string
+  data: z.string().refine(Base64.isValid),
+  size: z.number(),
+  creation_time: z.string().datetime(),
+  last_change_time: z.string().datetime(),
+  id: z.number(),
+  bug_id: z.number(),
+  file_name: z.string(),
+  summary: z.string(),
+  content_type: z.string(),
+  is_private: z.boolean(),
+  is_obsolete: z.boolean(),
+  is_patch: z.boolean(),
+  creator: z.string(),
+  flags: z.array(flagSchema),
+});
 
-export interface Bug {
-  alias: string | string[];
-  assigned_to: string;
-  assigned_to_detail: User;
-  blocks: number[];
-  cc: string[];
-  cc_detail: User[];
-  classification: string;
-  component: string | string[];
-  creation_time: datetime;
-  creator: string;
-  creator_detail: User;
-  depends_on: number[];
-  dupe_of: int | null;
-  flags: Flag[] | undefined;
-  groups: string[];
-  id: int;
-  is_cc_accessible: boolean;
-  is_confirmed: boolean;
-  is_open: boolean;
-  is_creator_accessible: boolean;
-  keywords: string[];
-  last_change_time: datetime;
-  op_sys: string;
-  platform: string;
-  priority: string;
-  product: string;
-  qa_contact: string;
-  qa_contact_detail?: User;
-  resolution: string;
-  see_also: string[] | undefined;
-  severity: string;
-  status: string;
-  summary: string;
-  target_milestone: string;
-  update_token?: string;
-  url: string;
-  version: string | string[];
-  whiteboard: string;
-}
+export type Attachment = z.infer<typeof attachmentSchema>;
 
-export const BugSpec: ObjectSpec<Bug> = {
-  alias: nullable(maybeArray(string), []),
-  assigned_to: string,
-  assigned_to_detail: object(UserSpec),
-  blocks: array(int),
-  cc: array(string),
-  cc_detail: array(object(UserSpec)),
-  classification: string,
-  component: maybeArray(string),
-  creation_time: datetime,
-  creator: string,
-  creator_detail: object(UserSpec),
-  depends_on: array(int),
-  dupe_of: nullable(int),
-  flags: optional(array(object(FlagSpec))),
-  groups: array(string),
-  id: int,
-  is_cc_accessible: boolean,
-  is_confirmed: boolean,
-  is_open: boolean,
-  is_creator_accessible: boolean,
-  keywords: array(string),
-  last_change_time: datetime,
-  op_sys: string,
-  platform: string,
-  priority: string,
-  product: string,
-  qa_contact: string,
-  qa_contact_detail: optional(object(UserSpec)),
-  resolution: string,
-  see_also: optional(array(string)),
-  severity: string,
-  status: string,
-  summary: string,
-  target_milestone: string,
-  update_token: optional(string),
-  url: string,
-  version: maybeArray(string),
-  whiteboard: string,
-};
+export const attachmentsSchema = z.object({
+  bugs: z.map(z.number(), z.array(attachmentSchema)),
+  attachments: z.map(z.number(), attachmentSchema),
+});
 
-export interface Change {
-  field_name: string;
-  removed: string;
-  added: string;
-  attachment_id?: int;
-}
+export type Attachments = z.infer<typeof attachmentsSchema>;
 
-export const ChangeSpec: ObjectSpec<Change> = {
-  field_name: string,
-  removed: string,
-  added: string,
-  attachment_id: optional(int),
-};
+export const createAttachmentContentSchema = z.object({
+  ids: z.array(z.number()),
+  // TODO: Buffer | ArrayBuffer
+  data: z.union([z.any(), z.string()]),
+  file_name: z.string(),
+  summary: z.string(),
+  content_type: z.string(),
+  comment: z.string().optional(),
+  is_patch: z.boolean().optional(),
+  is_private: z.boolean().optional(),
+  flags: z.array(setFlagSchema).optional(),
+});
 
-export interface History {
-  when: datetime;
-  who: string;
-  changes: Change[];
-}
+export type CreateAttachmentContent = z.infer<
+  typeof createAttachmentContentSchema
+>;
 
-export const HistorySpec: ObjectSpec<History> = {
-  when: datetime,
-  who: string,
-  changes: array(object(ChangeSpec)),
-};
+export const createdAttachmentSchema = z.object({
+  ids: z.array(z.number()),
+});
 
-export interface BugHistory {
-  id: int;
-  alias: string[];
-  history: History[];
-}
+export type CreatedAttachment = z.infer<typeof createdAttachmentSchema>;
 
-export const BugHistorySpec: ObjectSpec<BugHistory> = {
-  id: int,
-  alias: array(string),
-  history: array(object(HistorySpec)),
-};
+export const updateAttachmentContentSchema = z.object({
+  attachment_id: z.number().optional(),
+  ids: z.array(z.number()).optional(),
+  file_name: z.string().optional(),
+  summary: z.string().optional(),
+  comment: z.string().optional(),
+  content_type: z.string().optional(),
+  is_patch: z.boolean().optional(),
+  is_private: z.boolean().optional(),
+  is_obsolete: z.boolean().optional(),
+  flags: z.array(updateFlagSchema).optional(),
+});
 
-export interface HistoryLookup {
-  bugs: BugHistory[];
-}
+export type UpdateAttachmentContent = z.infer<
+  typeof updateAttachmentContentSchema
+>;
 
-export const HistoryLookupSpec: ObjectSpec<HistoryLookup> = {
-  bugs: array(object(BugHistorySpec)),
-};
+export const updatedAttachmentSchema = z.object({
+  id: z.number(),
+  last_change_time: z.string().datetime(),
+  changes: z.map(z.string(), changesSchema),
+});
 
-export interface Comment {
-  attachment_id?: int | null;
-  bug_id: int;
-  count: int;
-  creation_time: datetime;
-  creator: string;
-  id: int;
-  is_private: boolean;
-  tags: string[];
-  time: datetime;
-  text: string;
-}
+export type UpdatedAttachment = z.infer<typeof updatedAttachmentSchema>;
 
-export const CommentSpec: ObjectSpec<Comment> = {
-  attachment_id: nullable(optional(int)),
-  bug_id: int,
-  count: int,
-  creation_time: datetime,
-  creator: string,
-  id: int,
-  is_private: boolean,
-  tags: array(string),
-  time: datetime,
-  text: string,
-};
+export const updatedAttachmentTemplateSchema = z.object({
+  attachments: z.array(updatedAttachmentSchema),
+});
 
-export interface CommentsTemplate {
-  comments: Comment[];
-}
-
-export const CommentsTemplateSpec: ObjectSpec<CommentsTemplate> = {
-  comments: array(object(CommentSpec)),
-};
-
-export interface Comments {
-  bugs: Map<number, CommentsTemplate>;
-  comments: Map<number, Comment>;
-}
-
-export const CommentsSpec: ObjectSpec<Comments> = {
-  bugs: map(intString, object(CommentsTemplateSpec)),
-  comments: map(intString, object(CommentSpec)),
-};
-
-export interface CreateCommentContent {
-  comment: string;
-  is_private: boolean;
-}
-
-export interface CreatedComment {
-  id: int;
-}
-
-export const CreatedCommentSpec: ObjectSpec<CreatedComment> = {
-  id: int,
-};
-
-export interface CreateBugContent {
-  product: string;
-  component: string;
-  summary: string;
-  version: string;
-  description: string;
-  op_sys: string;
-  platform: string;
-  priority: string;
-  severity: string;
-  alias?: string[];
-  assigned_to?: string;
-  cc?: string[];
-  comment_is_private?: boolean;
-  comment_tags?: string[];
-  groups?: string[];
-  keywords?: string[];
-  qa_contact?: string;
-  status?: string;
-  resolution?: string;
-  target_milestone?: string;
-  flags?: SetFlag[];
-}
-
-export interface CreatedBug {
-  id: int;
-}
-
-export const CreatedBugSpec: ObjectSpec<CreatedBug> = {
-  id: int,
-};
-
-export interface UpdateList<T> {
-  add?: T[];
-  remove?: T[];
-}
-
-export type UpdateOrReplaceList<T> =
-  | UpdateList<T>
-  | {
-      set?: T[];
-    };
-
-export interface UpdateBugContent {
-  id_or_alias: int | string | string[];
-  ids: (int | string)[];
-  alias?: UpdateOrReplaceList<string>;
-  assigned_to?: string;
-  blocks?: UpdateOrReplaceList<int>;
-  depends_on?: UpdateOrReplaceList<int>;
-  cc?: UpdateList<string>;
-  is_cc_accessible?: boolean;
-  comment?: CreateCommentContent;
-  comment_is_private?: Map<number, boolean>;
-  comment_tags?: string[];
-  component?: string;
-  deadline?: datetime;
-  dupe_of?: int;
-  estimated_time?: double;
-  flags?: UpdateFlag[];
-  groups?: UpdateList<string>;
-  keywords?: UpdateOrReplaceList<string>;
-  op_sys?: string;
-  platform?: string;
-  priority?: string;
-  product?: string;
-  qa_contact?: string;
-  is_creator_accessible?: boolean;
-  remaining_time?: double;
-  reset_assigned_to?: boolean;
-  reset_qa_contact?: boolean;
-  resolution?: string;
-  see_also?: UpdateList<string>;
-  severity?: string;
-  status?: string;
-  summary?: string;
-  target_milestone?: string;
-  url?: string;
-  version?: string;
-  whiteboard?: string;
-  work_time?: double;
-}
-
-export interface Changes {
-  added: string;
-  removed: string;
-}
-
-const ChangesSpec: ObjectSpec<Changes> = {
-  added: string,
-  removed: string,
-};
-
-export interface UpdatedBug {
-  id: int;
-  alias: string[];
-  last_change_time: datetime;
-  changes: Map<
-    Omit<keyof UpdateBugContent, 'id_or_alias' | 'ids' | 'alias'>,
-    Changes
-  >;
-}
-
-export const UpdatedBugSpec: ObjectSpec<UpdatedBug> = {
-  id: int,
-  alias: array(string),
-  last_change_time: datetime,
-  changes: map(string, object(ChangesSpec)),
-};
-
-export interface UpdatedBugTemplate {
-  bugs: UpdatedBug[];
-}
-
-export const UpdatedBugTemplateSpec: ObjectSpec<UpdatedBugTemplate> = {
-  bugs: array(object(UpdatedBugSpec)),
-};
-
-export interface Attachment {
-  data: Buffer;
-  size: int;
-  creation_time: datetime;
-  last_change_time: datetime;
-  id: int;
-  bug_id: int;
-  file_name: string;
-  summary: string;
-  content_type: string;
-  is_private: boolean;
-  is_obsolete: boolean;
-  is_patch: boolean;
-  creator: string;
-  flags: Flag[];
-}
-
-export const AttachmentSpec: ObjectSpec<Attachment> = {
-  data: base64,
-  size: int,
-  creation_time: datetime,
-  last_change_time: datetime,
-  id: int,
-  bug_id: int,
-  file_name: string,
-  summary: string,
-  content_type: string,
-  is_private: boolean,
-  is_obsolete: boolean,
-  is_patch: boolean,
-  creator: string,
-  flags: array(object(FlagSpec)),
-};
-
-export interface Attachments {
-  bugs: Map<number, Attachment[]>;
-  attachments: Map<number, Attachment>;
-}
-
-export const AttachmentsSpec: ObjectSpec<Attachments> = {
-  bugs: map(intString, array(object(AttachmentSpec))),
-  attachments: map(intString, object(AttachmentSpec)),
-};
-
-export interface CreateAttachmentContent {
-  ids: int[];
-  data: Buffer | ArrayBuffer;
-  file_name: string;
-  summary: string;
-  content_type: string;
-  comment?: string;
-  is_patch?: boolean;
-  is_private?: boolean;
-  flags?: SetFlag[];
-}
-
-export interface CreatedAttachment {
-  ids: int[];
-}
-
-export const CreatedAttachmentSpec: ObjectSpec<CreatedAttachment> = {
-  ids: array(int),
-};
-
-export interface UpdateAttachmentContent {
-  attachment_id?: int;
-  ids?: int[];
-  file_name?: string;
-  summary?: string;
-  comment?: string;
-  content_type?: string;
-  is_patch?: boolean;
-  is_private?: boolean;
-  is_obsolete?: boolean;
-  flags?: UpdateFlag[];
-}
-
-export interface UpdatedAttachment {
-  id: int;
-  last_change_time: datetime;
-  changes: Map<
-    Omit<keyof UpdateAttachmentContent, 'attachment_id' | 'ids'>,
-    Changes
-  >;
-}
-
-export const UpdatedAttachmentSpec: ObjectSpec<UpdatedAttachment> = {
-  id: int,
-  last_change_time: datetime,
-  changes: map(string, object(ChangesSpec)),
-};
-
-export interface UpdatedAttachmentTemplate {
-  attachments: UpdatedAttachment[];
-}
-
-export const UpdatedAttachmentTemplateSpec: ObjectSpec<UpdatedAttachmentTemplate> =
-  {
-    attachments: array(object(UpdatedAttachmentSpec)),
-  };
+export type UpdatedAttachmentTemplate = z.infer<typeof updatedAttachmentSchema>;
