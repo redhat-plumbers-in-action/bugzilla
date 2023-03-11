@@ -34,7 +34,7 @@ test('boolean', () => {
     `"Expected a boolean but received \`0\`"`,
   );
   expect(() => boolean('')).toThrowErrorMatchingInlineSnapshot(
-    `"Expected a boolean but received \`\\"\\"\`"`,
+    `"Expected a boolean but received \`""\`"`,
   );
   expect(() => boolean([])).toThrowErrorMatchingInlineSnapshot(
     `"Expected a boolean but received \`[]\`"`,
@@ -61,10 +61,10 @@ test('int', () => {
     `"Expected a number but received \`undefined\`"`,
   );
   expect(() => int('5')).toThrowErrorMatchingInlineSnapshot(
-    `"Expected a number but received \`\\"5\\"\`"`,
+    `"Expected a number but received \`"5"\`"`,
   );
   expect(() => int('0')).toThrowErrorMatchingInlineSnapshot(
-    `"Expected a number but received \`\\"0\\"\`"`,
+    `"Expected a number but received \`"0"\`"`,
   );
   expect(() => int([])).toThrowErrorMatchingInlineSnapshot(
     `"Expected a number but received \`[]\`"`,
@@ -89,10 +89,10 @@ test('double', () => {
     `"Expected a number but received \`undefined\`"`,
   );
   expect(() => double('5')).toThrowErrorMatchingInlineSnapshot(
-    `"Expected a number but received \`\\"5\\"\`"`,
+    `"Expected a number but received \`"5"\`"`,
   );
   expect(() => double('0')).toThrowErrorMatchingInlineSnapshot(
-    `"Expected a number but received \`\\"0\\"\`"`,
+    `"Expected a number but received \`"0"\`"`,
   );
   expect(() => double([])).toThrowErrorMatchingInlineSnapshot(
     `"Expected a number but received \`[]\`"`,
@@ -119,7 +119,7 @@ test('string', () => {
     `"Expected a string but received \`[]\`"`,
   );
   expect(() => string([''])).toThrowErrorMatchingInlineSnapshot(
-    `"Expected a string but received \`[\\"\\"]\`"`,
+    `"Expected a string but received \`[""]\`"`,
   );
 });
 
@@ -135,7 +135,7 @@ test('optional', () => {
     `"Expected a number but received \`null\`"`,
   );
   expect(() => optional(int)('4')).toThrowErrorMatchingInlineSnapshot(
-    `"Expected a number but received \`\\"4\\"\`"`,
+    `"Expected a number but received \`"4"\`"`,
   );
 });
 
@@ -151,7 +151,7 @@ test('nullable', () => {
     `"Expected a number but received \`undefined\`"`,
   );
   expect(() => nullable(int)('4')).toThrowErrorMatchingInlineSnapshot(
-    `"Expected a number but received \`\\"4\\"\`"`,
+    `"Expected a number but received \`"4"\`"`,
   );
 });
 
@@ -170,12 +170,12 @@ test('datetime', () => {
     `"Expected an ISO-8601 string but received \`undefined\`"`,
   );
   expect(() => datetime('foo')).toThrowErrorMatchingInlineSnapshot(
-    `"Expected an ISO-8601 string but received \`\\"foo\\"\`"`,
+    `"Expected an ISO-8601 string but received \`"foo"\`"`,
   );
   expect(() =>
     datetime('2022-15-12T05:43:27Z'),
   ).toThrowErrorMatchingInlineSnapshot(
-    `"Expected an ISO-8601 string but received \`\\"2022-15-12T05:43:27Z\\"\`"`,
+    `"Expected an ISO-8601 string but received \`"2022-15-12T05:43:27Z"\`"`,
   );
 });
 
@@ -220,7 +220,7 @@ test('array', () => {
     `"Expected an array but received \`undefined\`"`,
   );
   expect(() => array(string)('hello')).toThrowErrorMatchingInlineSnapshot(
-    `"Expected an array but received \`\\"hello\\"\`"`,
+    `"Expected an array but received \`"hello"\`"`,
   );
   expect(() => array(int)(5)).toThrowErrorMatchingInlineSnapshot(
     `"Expected an array but received \`5\`"`,
@@ -262,7 +262,7 @@ test('intString', () => {
   expect(intString('5')).toBe(5);
 
   expect(() => intString('')).toThrowErrorMatchingInlineSnapshot(
-    `"Expected an integer as a string but received \`\\"\\"\`"`,
+    `"Expected an integer as a string but received \`""\`"`,
   );
   expect(() => intString(null)).toThrowErrorMatchingInlineSnapshot(
     `"Expected an integer as a string but received \`null\`"`,
@@ -277,7 +277,7 @@ test('intString', () => {
     `"Expected an integer as a string but received \`[]\`"`,
   );
   expect(() => intString([''])).toThrowErrorMatchingInlineSnapshot(
-    `"Expected an integer as a string but received \`[\\"\\"]\`"`,
+    `"Expected an integer as a string but received \`[""]\`"`,
   );
 });
 
@@ -288,7 +288,7 @@ test('map', () => {
   expect(map(intString, string)({ '5': '5' })).toStrictEqual(myMap);
 
   expect(() => map(intString, string)('')).toThrowErrorMatchingInlineSnapshot(
-    `"Expected an object but received \`\\"\\"\`"`,
+    `"Expected an object but received \`""\`"`,
   );
   expect(() => map(intString, string)(null)).toThrowErrorMatchingInlineSnapshot(
     `"Expected an object but received \`null\`"`,
@@ -341,6 +341,6 @@ test('base64', () => {
     `"Expected a base64 encoded string but received \`[]\`"`,
   );
   expect(() => base64([''])).toThrowErrorMatchingInlineSnapshot(
-    `"Expected a base64 encoded string but received \`[\\"\\"]\`"`,
+    `"Expected a base64 encoded string but received \`[""]\`"`,
   );
 });

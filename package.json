@@ -12,6 +12,7 @@
     "lint": "eslint .",
     "test": "jest",
     "itest": "jest -c itest/jest.config.js",
+    "update-snapshots": "jest --updateSnapshot",
     "prepack": "yarn run build",
     "version": "node scripts/version.js && git add CHANGELOG.md",
     "postversion": "node scripts/post-version.js && git add CHANGELOG.md && git commit -m 'Update CHANGELOG.md'"
