@@ -10,7 +10,6 @@ pull_request_rules:
       - check-success=Super Linter
       - check-success=Prettier & ESLint
       - check-success=Differential ShellCheck
-      - check-success=Build Tests - Node.js (14.x)
       - check-success=Build Tests - Node.js (16.x)
       - check-success~=Build Tests - Node.js (18.x)
       - check-success~=^Deploy Docker Image - Test (.*)$
@@ -32,7 +31,6 @@ pull_request_rules:
       - check-success=Super Linter
       - check-success=Prettier & ESLint
       - check-success=Differential ShellCheck
-      - check-success=Build Tests - Node.js (14.x)
       - check-success=Build Tests - Node.js (16.x)
       - check-success~=Build Tests - Node.js (18.x)
       - check-success~=^Deploy Docker Image - Test (.*)$
