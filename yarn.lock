@@ -689,10 +689,10 @@
     "@jridgewell/resolve-uri" "3.1.0"
     "@jridgewell/sourcemap-codec" "1.4.14"
 
-"@mossop/config@1.0.6":
-  version "1.0.6"
-  resolved "https://registry.yarnpkg.com/@mossop/config/-/config-1.0.6.tgz#765644c386e72a82a6f54a6ca8b8c30597129eb5"
-  integrity sha512-LoFEb3uBS18yO1g9KjDXeEtAIN/bJ2bQcTR35BbRrwJTZDlJG1z0gkmkHxV7zuUCetcvq3e4mf+ha6A1FySFDQ==
+"@mossop/config@1.1.2":
+  version "1.1.2"
+  resolved "https://registry.yarnpkg.com/@mossop/config/-/config-1.1.2.tgz#426b3e477729451189f6f177c6eab37d4ca4703f"
+  integrity sha512-4RmGu27sp1p6QYWkyC334HV648Y6lBpN2P/cUcR4jyhABohbEjVAaSw6KAq4esICb3Ud6+EufVSjYgLRvALwNQ==
 
 "@mswjs/cookies@^0.2.2":
   version "0.2.2"
