@@ -79,6 +79,8 @@ test('Create attachment for multiple bugs at once', async () => {
 });
 
 test('Get single attachment', async () => {
+  await expect(api.getAttachment(1)).resolves.toMatchInlineSnapshot();
+
   await expect(api.getAttachment(1)).resolves.toEqual({
     bug_id: bugs[0],
     content_type: 'image/png',
