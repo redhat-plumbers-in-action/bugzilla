@@ -90,7 +90,7 @@ export default class BugzillaAPI {
 
     if (since) {
       searchParams = new URLSearchParams();
-      searchParams.set('new_since', since.toISODate());
+      searchParams.set('new_since', since.toISODate() ?? '');
     }
 
     let bugs = await this.link.get(
