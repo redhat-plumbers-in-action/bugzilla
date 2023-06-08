@@ -173,12 +173,12 @@ Return value is array of Attachment objects.
 
 ```javascript
 let attachment = await api.createAttachment(123456, {
-  ids: [123456, 123457];
-  data:  Buffer.from('Attachment content');
-  file_name: "Attachment name";
-  summary: "Attachment summary";
-  content_type: "text/plain";
-  is_private?: false;
+  ids: [123456, 123457],
+  data:  Buffer.from('Attachment content'),
+  file_name: "Attachment name",
+  summary: "Attachment summary",
+  content_type: "text/plain",
+  is_private?: false,
 });
 ```
 
