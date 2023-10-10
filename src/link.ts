@@ -145,7 +145,10 @@ export class PublicLink extends BugzillaLink {
  * Handles authentication using an API key.
  */
 export class ApiKeyLink extends BugzillaLink {
-  public constructor(instance: URL, private readonly apiKey: string) {
+  public constructor(
+    instance: URL,
+    private readonly apiKey: string,
+  ) {
     super(instance);
   }
 
