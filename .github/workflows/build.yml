@@ -17,7 +17,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        node-version: [16.x, 18.x]
+        node-version: [ 18.x, 20.x ]
 
     steps:
       - uses: actions/checkout@v4
@@ -42,5 +42,5 @@ jobs:
         run: yarn jest -c jest.ci.config.js --coverage
 
       - name: Codecov
-        if: ${{ matrix.node-version == '18.x' }}
+        if: ${{ matrix.node-version == '20.x' }}
         uses: codecov/codecov-action@v3
