@@ -1,6 +1,11 @@
 # Change Log
 
-# [Next](https://github.com/redhat-plumbers-in-action/bugzilla/compare/v3.1.1...main)
+# [Next](https://github.com/redhat-plumbers-in-action/bugzilla/compare/v3.1.2...main)
+
+# [3.1.2](https://github.com/redhat-plumbers-in-action/bugzilla/compare/v3.1.1...v3.1.2)
+
+- Dependency updates
+- Drop support for NodeJS 16.x - EOL
 
 # [3.1.1](https://github.com/redhat-plumbers-in-action/bugzilla/compare/v3.1.0...v3.1.1)
 
