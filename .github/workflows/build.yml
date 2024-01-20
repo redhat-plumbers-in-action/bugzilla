@@ -14,18 +14,12 @@ jobs:
     name: Build Tests - Node.js
     runs-on: ubuntu-latest
 
-    strategy:
-      fail-fast: false
-      matrix:
-        node-version: [18.x, 20.x]
-
     steps:
       - uses: actions/checkout@v4
 
-      - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v4
+      - uses: actions/setup-node@v4
         with:
-          node-version: ${{ matrix.node-version }}
+          node-version: 20
           cache: yarn
           cache-dependency-path: yarn.lock
 
@@ -42,5 +36,4 @@ jobs:
         run: yarn jest -c jest.ci.config.js --coverage
 
       - name: Codecov
-        if: ${{ matrix.node-version == '20.x' }}
         uses: codecov/codecov-action@v3
