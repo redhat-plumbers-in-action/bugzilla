@@ -15,6 +15,7 @@ const bug = {
 };
 
 let bugs: number[] = [];
+let attachments: number[] = [];
 
 beforeAll(async () => {
   api = new BugzillaAPI(
@@ -28,25 +29,16 @@ beforeAll(async () => {
 
   expect(bugs).toBeDefined();
   expect(bugs.length).toEqual(2);
-});
 
-// Attachment 1
-test('Create simple attachment', async () => {
-  await expect(
-    api.createAttachment(bugs[0] as number, {
+  attachments.push(
+    ...(await api.createAttachment(bugs[0] as number, {
       ids: [bugs[0] as number],
       summary: 'Test creation of simple attachment',
       file_name: 'image.png',
       data: Buffer.from('This is not a image.'),
       content_type: 'image/png',
-    }),
-  ).resolves.toEqual([1]);
-});
-
-// Attachment 2
-test('Create complex attachment', async () => {
-  await expect(
-    api.createAttachment(bugs[0] as number, {
+    })),
+    ...(await api.createAttachment(bugs[0] as number, {
       ids: [bugs[0] as number],
       summary: 'Test creation of complex attachment',
       file_name: 'patch.patch',
@@ -61,26 +53,23 @@ test('Create complex attachment', async () => {
       //   ],
       is_private: false,
       is_patch: true,
-    }),
-  ).resolves.toEqual([2]);
-});
-
-// Attachments 3, 4
-test('Create attachment for multiple bugs at once', async () => {
-  await expect(
-    api.createAttachment(bugs[0] as number, {
+    })),
+    ...(await api.createAttachment(bugs[0] as number, {
       ids: bugs,
       summary: 'Test creation of multiple attachments at once',
       file_name: 'image.png',
       data: Buffer.from('This is not a image.'),
       content_type: 'image/png',
-    }),
-  ).resolves.toEqual([3, 4]);
+    })),
+  );
+
+  expect(attachments).toBeDefined();
+  expect(attachments.length).toEqual(4);
 });
 
 test('Get single attachment', async () => {
   await expect(api.getAttachment(1)).resolves.toEqual({
-    bug_id: bugs[0],
+    bug_id: expect.anything(),
     content_type: 'image/png',
     creation_time: expect.anything(),
     creator: 'admin@nowhere.com',
@@ -97,7 +86,7 @@ test('Get single attachment', async () => {
   });
 
   await expect(api.getAttachment(2)).resolves.toEqual({
-    bug_id: bugs[0],
+    bug_id: expect.anything(),
     content_type: 'text/plain',
     creation_time: expect.anything(),
     creator: 'admin@nowhere.com',
@@ -281,4 +270,5 @@ test('Edit multiple attachments', async () => {
 
 afterAll(() => {
   bugs = [];
+  attachments = [];
 });

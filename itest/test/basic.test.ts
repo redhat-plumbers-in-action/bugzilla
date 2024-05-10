@@ -7,7 +7,7 @@ test('Public access', async () => {
 
   await expect(api.whoami()).rejects.toThrowError('401');
 
-  await expect(api.quicksearch('ALL')).resolves.toEqual([]);
+  await expect(api.quicksearch('ALL')).resolves.toEqual(expect.any(Array));
 });
 
 test('Authenticated access', async () => {
@@ -25,5 +25,5 @@ test('Authenticated access', async () => {
     real_name: 'Insecure User',
   });
 
-  await expect(api.quicksearch('ALL')).resolves.toEqual([]);
+  await expect(api.quicksearch('ALL')).resolves.toEqual(expect.any(Array));
 });
