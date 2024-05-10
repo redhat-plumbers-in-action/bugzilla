@@ -1,10 +1,10 @@
 import { URL } from 'url';
+import { z } from 'zod';
 
 import { http, HttpResponse } from 'msw';
 import { setupServer } from 'msw/node';
 
 import { PublicLink, ApiKeyLink, PasswordLink } from '../src/link';
-import { int, object, string } from '../src/validators';
 
 const server = setupServer();
 
@@ -29,9 +29,9 @@ test('PublicLink', async () => {
     http.get('http://bugzilla.test.org/test/rest/foo', responseHandler),
   );
 
-  let testSpec = object({
-    foo: string,
-    length: int,
+  let testSpec = z.object({
+    foo: z.string(),
+    length: z.number(),
   });
 
   let result = await link.get('foo', testSpec);
@@ -72,9 +72,9 @@ test('ApiKeyLink', async () => {
     http.get('http://bugzilla.test.org/test/rest/foo', responseHandler),
   );
 
-  let testSpec = object({
-    foo: string,
-    length: int,
+  let testSpec = z.object({
+    foo: z.string(),
+    length: z.number(),
   });
 
   let result = await link.get('foo', testSpec);
@@ -131,9 +131,9 @@ test('PasswordLink', async () => {
     http.get('http://bugzilla.test.org/test/rest/foo', responseHandler),
   );
 
-  let testSpec = object({
-    foo: string,
-    length: int,
+  let testSpec = z.object({
+    foo: z.string(),
+    length: z.number(),
   });
 
   let result = await link.get('foo', testSpec);

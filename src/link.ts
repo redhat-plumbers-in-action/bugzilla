@@ -1,8 +1,8 @@
 import { URLSearchParams, URL } from 'url';
+import { z, ZodSchema } from 'zod';
 
 import axios, { AxiosRequestConfig } from 'axios';
-import { object, Validator } from './validators';
-import { LoginResponseSpec } from './types';
+import { loginResponseSchema } from './types';
 
 export type SearchParams =
   | Record<string, string>
@@ -28,10 +28,10 @@ function isError(payload: unknown): payload is ApiError {
   return payload && typeof payload == 'object' && payload.error;
 }
 
-async function performRequest<T>(
-  config: AxiosRequestConfig,
-  validator: Validator<T>,
-): Promise<T> {
+async function performRequest<
+  TSchema extends ZodSchema,
+  KValues extends z.infer<TSchema>,
+>(config: AxiosRequestConfig, schema: TSchema): Promise<KValues> {
   try {
     let response = await axios.request({
       ...config,
@@ -45,7 +45,7 @@ async function performRequest<T>(
       throw new Error(response.data.message);
     }
 
-    return validator(response.data);
+    return schema.parse(response.data);
   } catch (e: unknown) {
     if (axios.isAxiosError(e)) {
       throw new Error(e.message);
@@ -67,10 +67,10 @@ export abstract class BugzillaLink {
     this.instance = new URL('rest/', instance);
   }
 
-  protected abstract request<T>(
-    config: AxiosRequestConfig,
-    validator: Validator<T>,
-  ): Promise<T>;
+  protected abstract request<
+    TSchema extends ZodSchema,
+    KValues extends z.infer<TSchema>,
+  >(config: AxiosRequestConfig, schema: TSchema): Promise<KValues>;
 
   protected buildURL(path: string, query?: SearchParams): URL {
     let url = new URL(path, this.instance);
@@ -80,25 +80,29 @@ export abstract class BugzillaLink {
     return url;
   }
 
-  public async get<T>(
+  public async get<TSchema extends ZodSchema, KValues extends z.infer<TSchema>>(
     path: string,
-    validator: Validator<T>,
+    schema: TSchema,
     searchParams?: SearchParams,
-  ): Promise<T> {
+  ): Promise<KValues> {
     return this.request(
       {
         url: this.buildURL(path, searchParams).toString(),
       },
-      validator,
+      schema,
     );
   }
 
-  public async post<R, T>(
+  public async post<
+    R,
+    TSchema extends ZodSchema,
+    KValues extends z.infer<TSchema>,
+  >(
     path: string,
-    validator: Validator<T>,
+    schema: TSchema,
     content: R,
     searchParams?: SearchParams,
-  ): Promise<T> {
+  ): Promise<KValues> {
     return this.request(
       {
         url: this.buildURL(path, searchParams).toString(),
@@ -108,16 +112,20 @@ export abstract class BugzillaLink {
           'Content-Type': 'application/json',
         },
       },
-      validator,
+      schema,
     );
   }
 
-  public async put<R, T>(
+  public async put<
+    R,
+    TSchema extends ZodSchema,
+    KValues extends z.infer<TSchema>,
+  >(
     path: string,
-    validator: Validator<T>,
+    schema: TSchema,
     content: R,
     searchParams?: SearchParams,
-  ): Promise<T> {
+  ): Promise<KValues> {
     return this.request(
       {
         url: this.buildURL(path, searchParams).toString(),
@@ -127,17 +135,17 @@ export abstract class BugzillaLink {
           'Content-Type': 'application/json',
         },
       },
-      validator,
+      schema,
     );
   }
 }
 
 export class PublicLink extends BugzillaLink {
-  protected async request<T>(
-    config: AxiosRequestConfig,
-    validator: Validator<T>,
-  ): Promise<T> {
-    return performRequest(config, validator);
+  protected async request<
+    TSchema extends ZodSchema,
+    KValues extends z.infer<TSchema>,
+  >(config: AxiosRequestConfig, schema: TSchema): Promise<KValues> {
+    return performRequest(config, schema);
   }
 }
 
@@ -152,10 +160,10 @@ export class ApiKeyLink extends BugzillaLink {
     super(instance);
   }
 
-  protected async request<T>(
-    config: AxiosRequestConfig,
-    validator: Validator<T>,
-  ): Promise<T> {
+  protected async request<
+    TSchema extends ZodSchema,
+    KValues extends z.infer<TSchema>,
+  >(config: AxiosRequestConfig, schema: TSchema): Promise<KValues> {
     return performRequest(
       {
         ...config,
@@ -166,7 +174,7 @@ export class ApiKeyLink extends BugzillaLink {
           Authorization: `Bearer ${this.apiKey}`,
         },
       },
-      validator,
+      schema,
     );
   }
 }
@@ -195,16 +203,16 @@ export class PasswordLink extends BugzillaLink {
           restrict_login: String(this.restrictLogin),
         }).toString(),
       },
-      object(LoginResponseSpec),
+      loginResponseSchema,
     );
 
     return loginInfo.token;
   }
 
-  protected async request<T>(
-    config: AxiosRequestConfig,
-    validator: Validator<T>,
-  ): Promise<T> {
+  protected async request<
+    TSchema extends ZodSchema,
+    KValues extends z.infer<TSchema>,
+  >(config: AxiosRequestConfig, schema: TSchema): Promise<KValues> {
     if (!this.token) {
       this.token = await this.login();
     }
@@ -217,7 +225,7 @@ export class PasswordLink extends BugzillaLink {
           'X-BUGZILLA-TOKEN': this.token,
         },
       },
-      validator,
+      schema,
     );
   }
 }

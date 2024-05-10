@@ -46,7 +46,9 @@
   },
   "dependencies": {
     "axios": "1.6.8",
-    "luxon": "3.4.4"
+    "js-base64": "3.7.5",
+    "luxon": "3.4.4",
+    "zod": "3.21.4"
   },
   "packageManager": "yarn@4.2.2"
 }
