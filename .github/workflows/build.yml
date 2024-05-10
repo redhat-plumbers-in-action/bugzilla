@@ -36,4 +36,4 @@ jobs:
         run: yarn jest -c jest.ci.config.js --coverage
 
       - name: Codecov
-        uses: codecov/codecov-action@v3
+        uses: codecov/codecov-action@v4
