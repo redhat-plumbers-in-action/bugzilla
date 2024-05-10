@@ -48,5 +48,5 @@
     "axios": "1.6.8",
     "luxon": "3.4.4"
   },
-  "packageManager": "yarn@3.6.4"
+  "packageManager": "yarn@4.2.2"
 }
