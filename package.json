@@ -35,10 +35,10 @@
   },
   "homepage": "https://github.com/redhat-plumbers-in-action/bugzilla#readme",
   "devDependencies": {
-    "@mossop/config": "1.2.3",
-    "@types/jest": "29.5.5",
-    "@types/luxon": "3.3.2",
-    "@types/node": "^20.8.4",
+    "@mossop/config": "1.4.1",
+    "@types/jest": "29.5.12",
+    "@types/luxon": "3.4.2",
+    "@types/node": "20.12.11",
     "@typescript-eslint/eslint-plugin": "6.7.5",
     "@typescript-eslint/parser": "6.7.5",
     "eslint": "8.51.0",
@@ -48,14 +48,14 @@
     "eslint-import-resolver-ts": "0.4.2",
     "eslint-plugin-import": "2.28.1",
     "jest": "29.7.0",
-    "msw": "^1.0.0",
-    "prettier": "3.0.3",
-    "ts-jest": "29.1.1",
-    "typescript": "5.2.2"
+    "msw": "2.3.0",
+    "prettier": "3.2.5",
+    "ts-jest": "29.1.2",
+    "typescript": "5.4.5"
   },
   "dependencies": {
-    "axios": "^1.0.0",
-    "luxon": "^3.0.1"
+    "axios": "1.6.8",
+    "luxon": "3.4.4"
   },
   "packageManager": "yarn@3.6.4"
 }

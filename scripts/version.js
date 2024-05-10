@@ -18,9 +18,8 @@ async function main() {
   for (let i = 0; i < lines.length; i++) {
     let matches = NEXT_HEADER.exec(lines[i]);
     if (matches) {
-      lines[
-        i
-      ] = `# [${manifest.version}](https://github.com/${matches[1]}/compare/v${matches[2]}...v${manifest.version})`;
+      lines[i] =
+        `# [${manifest.version}](https://github.com/${matches[1]}/compare/v${matches[2]}...v${manifest.version})`;
       break;
     }
   }
