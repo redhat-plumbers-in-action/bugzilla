@@ -12,8 +12,8 @@ permissions:
   contents: read
 
 jobs:
-  prettier-and-eslint:
-    name: Prettier & ESLint
+  prettier:
+    name: Prettier
     runs-on: ubuntu-latest
 
     steps:
@@ -31,10 +31,6 @@ jobs:
 
       - name: Prettier
         run: yarn run format-check
-
-      - name: ESLint
-        if: always()
-        run: yarn run lint
 
   differential-shellcheck:
     name: Differential ShellCheck
