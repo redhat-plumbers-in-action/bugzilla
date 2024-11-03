@@ -1009,12 +1009,21 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node@npm:*, @types/node@npm:20.12.11, @types/node@npm:^20.12.7":
+"@types/node@npm:*, @types/node@npm:^20.12.7":
   version: 20.12.11
   resolution: "@types/node@npm:20.12.11"
   dependencies:
     undici-types: "npm:~5.26.4"
   checksum: 10c0/efaa7b08c50ba6e6982ac7d531ba08d5935539ba76e954807df1ff9382a319ead7e003ccaca5ad7cf33ecf53f212507f7c1f2794bd2ff52df6365fef21f6e1fb
+  languageName: node
+  linkType: hard
+
+"@types/node@npm:20.17.6":
+  version: 20.17.6
+  resolution: "@types/node@npm:20.17.6"
+  dependencies:
+    undici-types: "npm:~6.19.2"
+  checksum: 10c0/5918c7ff8368bbe6d06d5e739c8ae41a9db41628f28760c60cda797be7d233406f07c4d0e6fdd960a0a342ec4173c2217eb6624e06bece21c1f1dd1b92805c15
   languageName: node
   linkType: hard
 
@@ -1330,7 +1339,7 @@ __metadata:
     "@mossop/config": "npm:1.4.1"
     "@types/jest": "npm:29.5.12"
     "@types/luxon": "npm:3.4.2"
-    "@types/node": "npm:20.12.11"
+    "@types/node": "npm:20.17.6"
     axios: "npm:1.6.8"
     jest: "npm:29.7.0"
     luxon: "npm:3.4.4"
@@ -3797,6 +3806,13 @@ __metadata:
   version: 5.26.5
   resolution: "undici-types@npm:5.26.5"
   checksum: 10c0/bb673d7876c2d411b6eb6c560e0c571eef4a01c1c19925175d16e3a30c4c428181fb8d7ae802a261f283e4166a0ac435e2f505743aa9e45d893f9a3df017b501
+  languageName: node
+  linkType: hard
+
+"undici-types@npm:~6.19.2":
+  version: 6.19.8
+  resolution: "undici-types@npm:6.19.8"
+  checksum: 10c0/078afa5990fba110f6824823ace86073b4638f1d5112ee26e790155f481f2a868cc3e0615505b6f4282bdf74a3d8caad715fd809e870c2bb0704e3ea6082f344
   languageName: node
   linkType: hard
 
