@@ -1,20 +1,21 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-  "extends": ["config:base"],
-
+  "extends": ["config:recommended"],
   "labels": ["type: dependencies"],
   "github-actions": {
     "extends": ["schedule:monthly"],
     "addLabels": ["github-actions"]
   },
-
-  "js": {
-    "extends": ["schedule:monthly"],
-    "addLabels": ["javascript"]
-  },
-
-  "docker": {
-    "extends": ["schedule:monthly"],
-    "addLabels": ["docker"]
-  }
+  "packageRules": [
+    {
+      "matchCategories": ["js"],
+      "extends": ["schedule:monthly"],
+      "addLabels": ["javascript"]
+    },
+    {
+      "matchCategories": ["docker"],
+      "extends": ["schedule:monthly"],
+      "addLabels": ["docker"]
+    }
+  ]
 }
