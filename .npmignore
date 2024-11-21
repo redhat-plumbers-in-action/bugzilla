@@ -1,8 +1,8 @@
 /.github
 /coverage
 /scripts
-/jest.ci.config.js
-/jest.config.js
+/vitest.ci.config.js
+/vitest.config.js
 /tsconfig.*
 /test
 /itest
