@@ -36,7 +36,9 @@ export function object<T>(
       try {
         result[field] = fieldValidator(val[field]);
       } catch (e) {
-        throw new Error(`Error validating field '${field}': ${e.message}`);
+        throw new Error(
+          `Error validating field '${field}': ${e instanceof Error ? e.message : e}`,
+        );
       }
     }
 
@@ -53,7 +55,9 @@ export function array<T>(validator: Validator<T>): Validator<T[]> {
     try {
       return val.map(validator);
     } catch (e) {
-      throw new Error(`Error validating array: ${e.message}`);
+      throw new Error(
+        `Error validating array: ${e instanceof Error ? e.message : e}`,
+      );
     }
   };
 }
@@ -138,7 +142,9 @@ export function maybeArray<T>(validator: Validator<T>): Validator<T | T[]> {
       try {
         return val.map(validator);
       } catch (e) {
-        throw new Error(`Error validating array: ${e.message}`);
+        throw new Error(
+          `Error validating array: ${e instanceof Error ? e.message : e}`,
+        );
       }
     }
 

@@ -1,4 +1,5 @@
 import { URL } from 'url';
+import { afterAll, afterEach, beforeAll, expect, test, vi } from 'vitest';
 
 import { http, HttpResponse } from 'msw';
 import { setupServer } from 'msw/node';
@@ -15,7 +16,7 @@ afterAll(() => server.close());
 test('PublicLink', async () => {
   let link = new PublicLink(new URL('http://bugzilla.test.org/test/'));
 
-  let responseHandler = jest.fn(
+  let responseHandler = vi.fn(
     () =>
       new HttpResponse(
         JSON.stringify({
@@ -58,7 +59,7 @@ test('ApiKeyLink', async () => {
     'my-api-key',
   );
 
-  let responseHandler = jest.fn(
+  let responseHandler = vi.fn(
     () =>
       new HttpResponse(
         JSON.stringify({
@@ -103,7 +104,7 @@ test('PasswordLink', async () => {
     true,
   );
 
-  let loginHandler = jest.fn(
+  let loginHandler = vi.fn(
     () =>
       new HttpResponse(
         JSON.stringify({
@@ -117,7 +118,7 @@ test('PasswordLink', async () => {
     http.get('http://bugzilla.test.org/test/rest/login', loginHandler),
   );
 
-  let responseHandler = jest.fn(
+  let responseHandler = vi.fn(
     () =>
       new HttpResponse(
         JSON.stringify({

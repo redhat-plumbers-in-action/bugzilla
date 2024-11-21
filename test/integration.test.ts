@@ -1,3 +1,5 @@
+import { expect, test } from 'vitest';
+
 import BugzillaAPI from '../src';
 
 // Tests that rely on the network are not ideal but it's hard to otherwise

@@ -1,3 +1,7 @@
+// @vitest-environment bugzilla-environment
+
+import { afterEach, beforeEach, expect, test } from 'vitest';
+
 import BugzillaAPI from '../../src';
 
 let api: BugzillaAPI;

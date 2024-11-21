@@ -1,3 +1,7 @@
+// @vitest-environment bugzilla-environment
+
+import { afterEach, beforeEach, expect, test } from 'vitest';
+
 import BugzillaAPI from '../../src';
 
 let api: BugzillaAPI;
@@ -41,14 +45,14 @@ test('Create comment', async () => {
 test('getComment', async () => {
   await expect(api.getComment(3)).resolves.toEqual({
     attachment_id: null,
-    bug_id: 3,
-    count: 0,
+    bug_id: 1,
+    count: 1,
     creation_time: expect.anything(),
     creator: 'admin@nowhere.com',
     id: 3,
     is_private: false,
     tags: [],
-    text: 'This is a test bug',
+    text: 'First comment!',
     time: expect.anything(),
   });
 });

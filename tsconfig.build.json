@@ -1,8 +1,0 @@
-{
-  "extends": "@mossop/config/node-ts/tsconfig.build.json",
-  "compilerOptions": {
-    "module": "CommonJS",
-    "outDir": "dist"
-  },
-  "include": ["src/**/*.ts"]
-}

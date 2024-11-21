@@ -29,11 +29,8 @@ jobs:
       - name: Compile
         run: yarn run build
 
-      - name: Start Bugzilla
-        run: ./itest/start_container.sh
-
       - name: Test
-        run: yarn jest -c jest.ci.config.js --coverage
+        run: yarn run test
 
       - name: Codecov
         uses: codecov/codecov-action@v4

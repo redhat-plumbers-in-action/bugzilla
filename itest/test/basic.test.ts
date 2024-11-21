@@ -1,3 +1,7 @@
+// @vitest-environment bugzilla-environment
+
+import { expect, test } from 'vitest';
+
 import BugzillaAPI from '../../src';
 
 test('Public access', async () => {
