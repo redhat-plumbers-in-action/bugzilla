@@ -1,6 +1,12 @@
 # Change Log
 
-# [Next](https://github.com/redhat-plumbers-in-action/bugzilla/compare/v3.1.2...main)
+# [Next](https://github.com/redhat-plumbers-in-action/bugzilla/compare/v3.1.3...main)
+
+# [3.1.3](https://github.com/redhat-plumbers-in-action/bugzilla/compare/v3.1.2...v3.1.3)
+
+- Allow is_private field for attachments to be a number
+- Use vitest instead of jest
+- Dependency updates
 
 # [3.1.2](https://github.com/redhat-plumbers-in-action/bugzilla/compare/v3.1.1...v3.1.2)
 
