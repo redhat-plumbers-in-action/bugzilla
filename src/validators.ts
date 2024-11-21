@@ -13,7 +13,7 @@ function repr(val: any): string {
 export function object<T>(
   validator: ObjectSpec<T>,
   includes: string[] = Object.keys(validator),
-  excludes: string[] = [],
+  excludes: string[] = []
 ): Validator<T> {
   return (val: any): T => {
     if (!val || typeof val != 'object') {
@@ -37,7 +37,7 @@ export function object<T>(
         result[field] = fieldValidator(val[field]);
       } catch (e) {
         throw new Error(
-          `Error validating field '${field}': ${e instanceof Error ? e.message : e}`,
+          `Error validating field '${field}': ${e instanceof Error ? e.message : e}`
         );
       }
     }
@@ -56,7 +56,7 @@ export function array<T>(validator: Validator<T>): Validator<T[]> {
       return val.map(validator);
     } catch (e) {
       throw new Error(
-        `Error validating array: ${e instanceof Error ? e.message : e}`,
+        `Error validating array: ${e instanceof Error ? e.message : e}`
       );
     }
   };
@@ -93,7 +93,7 @@ export const string = typedValidator<string>('string');
 export function base64(val: any): Buffer {
   if (typeof val != 'string') {
     throw new Error(
-      `Expected a base64 encoded string but received ${repr(val)}`,
+      `Expected a base64 encoded string but received ${repr(val)}`
     );
   }
 
@@ -101,7 +101,7 @@ export function base64(val: any): Buffer {
     return Buffer.from(val, 'base64');
   } catch (_) {
     throw new Error(
-      `Expected a base64 encoded string but received ${repr(val)}`,
+      `Expected a base64 encoded string but received ${repr(val)}`
     );
   }
 }
@@ -110,7 +110,7 @@ export function nullable<T>(validator: Validator<T>): Validator<T | null>;
 export function nullable<T>(validator: Validator<T>, result: T): Validator<T>;
 export function nullable<T>(
   validator: Validator<T>,
-  result?: T,
+  result?: T
 ): Validator<T | null> {
   return (val: any): T | null => {
     if (val === null) {
@@ -125,7 +125,7 @@ export function optional<T>(validator: Validator<T>): Validator<T | undefined>;
 export function optional<T>(validator: Validator<T>, result: T): Validator<T>;
 export function optional<T>(
   validator: Validator<T>,
-  result?: T,
+  result?: T
 ): Validator<T | undefined> {
   return (val: any): T | undefined => {
     if (val === undefined) {
@@ -143,7 +143,7 @@ export function maybeArray<T>(validator: Validator<T>): Validator<T | T[]> {
         return val.map(validator);
       } catch (e) {
         throw new Error(
-          `Error validating array: ${e instanceof Error ? e.message : e}`,
+          `Error validating array: ${e instanceof Error ? e.message : e}`
         );
       }
     }
@@ -155,14 +155,14 @@ export function maybeArray<T>(validator: Validator<T>): Validator<T | T[]> {
 export function intString(val: any): number {
   if (typeof val != 'string') {
     throw new Error(
-      `Expected an integer as a string but received ${repr(val)}`,
+      `Expected an integer as a string but received ${repr(val)}`
     );
   }
 
   let value = parseInt(val, 10);
   if (value.toString() != val) {
     throw new Error(
-      `Expected an integer as a string but received ${repr(val)}`,
+      `Expected an integer as a string but received ${repr(val)}`
     );
   }
 
@@ -171,7 +171,7 @@ export function intString(val: any): number {
 
 export function map<K, V>(
   keyValidator: Validator<K>,
-  valueValidator: Validator<V>,
+  valueValidator: Validator<V>
 ): Validator<Map<K, V>> {
   return (val: any): Map<K, V> => {
     if (!val || typeof val != 'object') {
@@ -190,7 +190,7 @@ export function map<K, V>(
 
 export function either<F, S>(
   first: Validator<F>,
-  second: Validator<S>,
+  second: Validator<S>
 ): Validator<F | S> {
   return (val: any): F | S => {
     let result: F | S;
@@ -203,8 +203,8 @@ export function either<F, S>(
       } catch (e) {
         throw new Error(
           `Expected an ${first.name} or ${second.name} but received ${repr(
-            val,
-          )}`,
+            val
+          )}`
         );
       }
     }

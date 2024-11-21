@@ -30,7 +30,7 @@ function isError(payload: unknown): payload is ApiError {
 
 async function performRequest<T>(
   config: AxiosRequestConfig,
-  validator: Validator<T>,
+  validator: Validator<T>
 ): Promise<T> {
   try {
     let response = await axios.request({
@@ -69,7 +69,7 @@ export abstract class BugzillaLink {
 
   protected abstract request<T>(
     config: AxiosRequestConfig,
-    validator: Validator<T>,
+    validator: Validator<T>
   ): Promise<T>;
 
   protected buildURL(path: string, query?: SearchParams): URL {
@@ -83,13 +83,13 @@ export abstract class BugzillaLink {
   public async get<T>(
     path: string,
     validator: Validator<T>,
-    searchParams?: SearchParams,
+    searchParams?: SearchParams
   ): Promise<T> {
     return this.request(
       {
         url: this.buildURL(path, searchParams).toString(),
       },
-      validator,
+      validator
     );
   }
 
@@ -97,7 +97,7 @@ export abstract class BugzillaLink {
     path: string,
     validator: Validator<T>,
     content: R,
-    searchParams?: SearchParams,
+    searchParams?: SearchParams
   ): Promise<T> {
     return this.request(
       {
@@ -108,7 +108,7 @@ export abstract class BugzillaLink {
           'Content-Type': 'application/json',
         },
       },
-      validator,
+      validator
     );
   }
 
@@ -116,7 +116,7 @@ export abstract class BugzillaLink {
     path: string,
     validator: Validator<T>,
     content: R,
-    searchParams?: SearchParams,
+    searchParams?: SearchParams
   ): Promise<T> {
     return this.request(
       {
@@ -127,7 +127,7 @@ export abstract class BugzillaLink {
           'Content-Type': 'application/json',
         },
       },
-      validator,
+      validator
     );
   }
 }
@@ -135,7 +135,7 @@ export abstract class BugzillaLink {
 export class PublicLink extends BugzillaLink {
   protected async request<T>(
     config: AxiosRequestConfig,
-    validator: Validator<T>,
+    validator: Validator<T>
   ): Promise<T> {
     return performRequest(config, validator);
   }
@@ -147,14 +147,14 @@ export class PublicLink extends BugzillaLink {
 export class ApiKeyLink extends BugzillaLink {
   public constructor(
     instance: URL,
-    private readonly apiKey: string,
+    private readonly apiKey: string
   ) {
     super(instance);
   }
 
   protected async request<T>(
     config: AxiosRequestConfig,
-    validator: Validator<T>,
+    validator: Validator<T>
   ): Promise<T> {
     return performRequest(
       {
@@ -166,7 +166,7 @@ export class ApiKeyLink extends BugzillaLink {
           Authorization: `Bearer ${this.apiKey}`,
         },
       },
-      validator,
+      validator
     );
   }
 }
@@ -181,7 +181,7 @@ export class PasswordLink extends BugzillaLink {
     instance: URL,
     private readonly username: string,
     private readonly password: string,
-    private readonly restrictLogin: boolean,
+    private readonly restrictLogin: boolean
   ) {
     super(instance);
   }
@@ -195,7 +195,7 @@ export class PasswordLink extends BugzillaLink {
           restrict_login: String(this.restrictLogin),
         }).toString(),
       },
-      object(LoginResponseSpec),
+      object(LoginResponseSpec)
     );
 
     return loginInfo.token;
@@ -203,7 +203,7 @@ export class PasswordLink extends BugzillaLink {
 
   protected async request<T>(
     config: AxiosRequestConfig,
-    validator: Validator<T>,
+    validator: Validator<T>
   ): Promise<T> {
     if (!this.token) {
       this.token = await this.login();
@@ -217,7 +217,7 @@ export class PasswordLink extends BugzillaLink {
           'X-BUGZILLA-TOKEN': this.token,
         },
       },
-      validator,
+      validator
     );
   }
 }

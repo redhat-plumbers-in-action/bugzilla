@@ -24,7 +24,7 @@ beforeEach(async () => {
   api = new BugzillaAPI(
     'http://localhost:8088/bugzilla/',
     'admin@nowhere.com',
-    'adminpass',
+    'adminpass'
   );
 
   bugs.push(await api.createBug(bug));
@@ -38,7 +38,7 @@ test('Create comment', async () => {
   await expect(
     api.createComment(bugs[0] as number, 'First comment!', {
       is_private: false,
-    }),
+    })
   ).resolves.not.toThrow();
 });
 

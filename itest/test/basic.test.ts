@@ -18,7 +18,7 @@ test('Authenticated access', async () => {
   let api = new BugzillaAPI(
     'http://localhost:8088/bugzilla/',
     'admin@nowhere.com',
-    'adminpass',
+    'adminpass'
   );
 
   await expect(api.version()).resolves.toBe('5.1.2');

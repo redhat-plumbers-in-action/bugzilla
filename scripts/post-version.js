@@ -22,7 +22,7 @@ async function main() {
         i,
         0,
         `# [Next](https://github.com/${matches[1]}/compare/v${manifest.version}...main)`,
-        '',
+        ''
       );
       break;
     }

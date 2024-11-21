@@ -18,7 +18,7 @@ abstract class Executable<T> implements Promisish<T> {
     onrejected?:
       | ((reason: unknown) => TResult2 | PromiseLike<TResult2>)
       | undefined
-      | null,
+      | null
   ): Promise<TResult1 | TResult2> {
     if (!this.promise) {
       this.promise = this.execute();
@@ -31,7 +31,7 @@ abstract class Executable<T> implements Promisish<T> {
     onrejected?:
       | ((reason: unknown) => TResult | PromiseLike<TResult>)
       | undefined
-      | null,
+      | null
   ): Promise<T | TResult> {
     return this.then(undefined, onrejected);
   }
@@ -50,7 +50,7 @@ type Filtered<T, I extends keyof T, E extends keyof T> = T extends
 
 type FilterExec<T, I extends keyof T, E extends keyof T> = (
   includes: Keys<T>[] | undefined,
-  excludes: Keys<T>[] | undefined,
+  excludes: Keys<T>[] | undefined
 ) => Promise<Filtered<T, I, E>[]>;
 
 export class FilteredQuery<
@@ -71,14 +71,14 @@ export class FilteredQuery<
   }
 
   public include<NI extends Keys<T>>(
-    includes: NI[] | null,
+    includes: NI[] | null
   ): FilteredQuery<T, NI, E> {
     this.includes = includes ?? undefined;
     return this as unknown as FilteredQuery<T, NI, E>;
   }
 
   public exclude<NE extends Keys<T>>(
-    excludes: NE[] | null,
+    excludes: NE[] | null
   ): FilteredQuery<T, I, NE> {
     this.excludes = excludes ?? undefined;
     return this as unknown as FilteredQuery<T, I, NE>;

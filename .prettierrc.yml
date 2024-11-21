@@ -1,13 +1,12 @@
----
 semi: true
 overrides:
   - files: "**/*.{ts,js}"
     options:
-      trailingComma: all
+      trailingComma: "es5"
       tabWidth: 2
       semi: true
       singleQuote: true
-      quoteProps: as-needed
+      quoteProps: "as-needed"
       bracketSpacing: true
       bracketSameLine: true
-      arrowParens: avoid
+      arrowParens: "avoid"
