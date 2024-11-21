@@ -408,8 +408,8 @@ export interface Attachment {
   summary: string;
   content_type: string;
   is_private: boolean | int;
-  is_obsolete: boolean;
-  is_patch: boolean;
+  is_obsolete: boolean | int;
+  is_patch: boolean | int;
   creator: string;
   flags: Flag[];
 }
@@ -425,8 +425,8 @@ export const AttachmentSpec: ObjectSpec<Attachment> = {
   summary: string,
   content_type: string,
   is_private: either(boolean, int),
-  is_obsolete: boolean,
-  is_patch: boolean,
+  is_obsolete: either(boolean, int),
+  is_patch: either(boolean, int),
   creator: string,
   flags: array(object(FlagSpec)),
 };
@@ -470,7 +470,7 @@ export interface UpdateAttachmentContent {
   content_type?: string;
   is_patch?: boolean;
   is_private?: boolean;
-  is_obsolete?: boolean;
+  is_obsolete?: boolean | int;
   flags?: UpdateFlag[];
 }
 
