@@ -17,6 +17,7 @@ import {
   map,
   double,
   base64,
+  either,
 } from './validators';
 
 type int = number;
@@ -406,7 +407,7 @@ export interface Attachment {
   file_name: string;
   summary: string;
   content_type: string;
-  is_private: boolean;
+  is_private: boolean | int;
   is_obsolete: boolean;
   is_patch: boolean;
   creator: string;
@@ -423,7 +424,7 @@ export const AttachmentSpec: ObjectSpec<Attachment> = {
   file_name: string,
   summary: string,
   content_type: string,
-  is_private: boolean,
+  is_private: either(boolean, int),
   is_obsolete: boolean,
   is_patch: boolean,
   creator: string,
