@@ -21,7 +21,7 @@ export default <Environment>{
           ['exec', 'integration', '/usr/local/bin/restore-db'],
           {
             stdio: 'inherit',
-          },
+          }
         );
         spawnSync(path.join(__dirname, 'stop_container.sh'), {
           stdio: 'inherit',

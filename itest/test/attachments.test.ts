@@ -25,7 +25,7 @@ beforeAll(async () => {
   api = new BugzillaAPI(
     'http://localhost:8088/bugzilla/',
     'admin@nowhere.com',
-    'adminpass',
+    'adminpass'
   );
 
   bugs.push(await api.createBug(bug));
@@ -64,7 +64,7 @@ beforeAll(async () => {
       file_name: 'image.png',
       data: Buffer.from('This is not a image.'),
       content_type: 'image/png',
-    })),
+    }))
   );
 
   expect(attachments).toBeDefined();
@@ -199,7 +199,7 @@ test(`Edit single attachment`, async () => {
       is_patch: true,
       // is_private: true,
       summary: 'new summary',
-    }),
+    })
   ).resolves.toEqual([
     {
       changes: new Map([
@@ -233,7 +233,7 @@ test('Edit multiple attachments', async () => {
       is_patch: true,
       // is_private: true,
       summary: 'new summary',
-    }),
+    })
   ).resolves.toEqual([
     {
       changes: expect.anything(),

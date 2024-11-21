@@ -53,13 +53,13 @@ export default class BugzillaAPI {
     instance: URL | string,
     username: string,
     password: string,
-    restrictLogin?: boolean,
+    restrictLogin?: boolean
   );
   public constructor(
     instance: URL | string,
     user?: string,
     password?: string,
-    restrictLogin: boolean = false,
+    restrictLogin: boolean = false
   ) {
     let url = instance instanceof URL ? instance : new URL(instance);
 
@@ -84,7 +84,7 @@ export default class BugzillaAPI {
 
   public async bugHistory(
     bugId: number | string,
-    since?: DateTime,
+    since?: DateTime
   ): Promise<History[]> {
     let searchParams: URLSearchParams | undefined;
 
@@ -96,7 +96,7 @@ export default class BugzillaAPI {
     let bugs = await this.link.get(
       `bug/${bugId}/history`,
       object(HistoryLookupSpec),
-      searchParams,
+      searchParams
     );
 
     let [bug] = bugs.bugs;
@@ -111,7 +111,7 @@ export default class BugzillaAPI {
     return new FilteredQuery(
       async (
         includes: string[] | undefined,
-        excludes: string[] | undefined,
+        excludes: string[] | undefined
       ): Promise<Bug[]> => {
         let search = params(query);
         if (includes) {
@@ -126,11 +126,11 @@ export default class BugzillaAPI {
           object({
             bugs: array(object(BugSpec, includes, excludes)),
           }),
-          search,
+          search
         );
 
         return result.bugs;
-      },
+      }
     );
   }
 
@@ -152,7 +152,7 @@ export default class BugzillaAPI {
       | URL
       | Record<string, string>
       | [string, string][]
-      | URLSearchParams,
+      | URLSearchParams
   ): FilteredQuery<Bug> {
     let searchParams: URLSearchParams;
 
@@ -174,7 +174,7 @@ export default class BugzillaAPI {
   public async getComment(commentId: number): Promise<Comment | undefined> {
     let comment = await this.link.get(
       `bug/comment/${commentId}`,
-      object(CommentsSpec),
+      object(CommentsSpec)
     );
 
     if (!comment) {
@@ -187,7 +187,7 @@ export default class BugzillaAPI {
   public async getBugComments(bugId: number): Promise<Comment[] | undefined> {
     let comments = await this.link.get(
       `bug/${bugId}/comment`,
-      object(CommentsSpec),
+      object(CommentsSpec)
     );
 
     if (!comments) {
@@ -200,7 +200,7 @@ export default class BugzillaAPI {
   public async createComment(
     bugId: number,
     comment: string,
-    options: Partial<Omit<CreateCommentContent, 'comment'>> = {},
+    options: Partial<Omit<CreateCommentContent, 'comment'>> = {}
   ): Promise<number> {
     const content = {
       comment,
@@ -210,7 +210,7 @@ export default class BugzillaAPI {
     let commentStatus = await this.link.post(
       `bug/${bugId}/comment`,
       object(CreatedCommentSpec),
-      content,
+      content
     );
 
     if (!commentStatus) {
@@ -232,12 +232,12 @@ export default class BugzillaAPI {
 
   public async updateBug(
     bugIdOrAlias: number | string,
-    data: UpdateBugContent,
+    data: UpdateBugContent
   ): Promise<UpdatedBug[]> {
     let response = await this.link.put(
       `bug/${bugIdOrAlias}`,
       object(UpdatedBugTemplateSpec),
-      data,
+      data
     );
 
     if (!response) {
@@ -248,11 +248,11 @@ export default class BugzillaAPI {
   }
 
   public async getAttachment(
-    attachmentId: number,
+    attachmentId: number
   ): Promise<Attachment | undefined> {
     let attachment = await this.link.get(
       `bug/attachment/${attachmentId}`,
-      object(AttachmentsSpec),
+      object(AttachmentsSpec)
     );
 
     if (!attachment) {
@@ -263,11 +263,11 @@ export default class BugzillaAPI {
   }
 
   public async getBugAttachments(
-    bugId: number,
+    bugId: number
   ): Promise<Attachment[] | undefined> {
     let attachments = await this.link.get(
       `bug/${bugId}/attachment`,
-      object(AttachmentsSpec),
+      object(AttachmentsSpec)
     );
 
     if (!attachments) {
@@ -279,7 +279,7 @@ export default class BugzillaAPI {
 
   public async createAttachment(
     bugId: number,
-    attachment: CreateAttachmentContent,
+    attachment: CreateAttachmentContent
   ): Promise<number[]> {
     const dataBase64 = {
       data: Buffer.from(attachment.data).toString('base64'),
@@ -288,7 +288,7 @@ export default class BugzillaAPI {
     let attachmentStatus = await this.link.post(
       `bug/${bugId}/attachment`,
       object(CreatedAttachmentSpec),
-      { ...attachment, ...dataBase64 },
+      { ...attachment, ...dataBase64 }
     );
 
     if (!attachmentStatus) {
@@ -300,12 +300,12 @@ export default class BugzillaAPI {
 
   public async updateAttachment(
     attachmentId: number,
-    data: UpdateAttachmentContent,
+    data: UpdateAttachmentContent
   ): Promise<UpdatedAttachment[]> {
     let response = await this.link.put(
       `bug/attachment/${attachmentId}`,
       object(UpdatedAttachmentTemplateSpec),
-      data,
+      data
     );
 
     if (!response) {

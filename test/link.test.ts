@@ -22,12 +22,12 @@ test('PublicLink', async () => {
         JSON.stringify({
           foo: 'Bar',
           length: 38,
-        }),
-      ),
+        })
+      )
   );
 
   server.use(
-    http.get('http://bugzilla.test.org/test/rest/foo', responseHandler),
+    http.get('http://bugzilla.test.org/test/rest/foo', responseHandler)
   );
 
   let testSpec = object({
@@ -49,14 +49,14 @@ test('PublicLink', async () => {
         method: 'GET',
         url: 'http://bugzilla.test.org/test/rest/foo',
       }),
-    }),
+    })
   );
 });
 
 test('ApiKeyLink', async () => {
   let link = new ApiKeyLink(
     new URL('http://bugzilla.test.org/test/'),
-    'my-api-key',
+    'my-api-key'
   );
 
   let responseHandler = vi.fn(
@@ -65,12 +65,12 @@ test('ApiKeyLink', async () => {
         JSON.stringify({
           foo: 'Bar',
           length: 38,
-        }),
-      ),
+        })
+      )
   );
 
   server.use(
-    http.get('http://bugzilla.test.org/test/rest/foo', responseHandler),
+    http.get('http://bugzilla.test.org/test/rest/foo', responseHandler)
   );
 
   let testSpec = object({
@@ -92,7 +92,7 @@ test('ApiKeyLink', async () => {
         method: 'GET',
         url: 'http://bugzilla.test.org/test/rest/foo',
       }),
-    }),
+    })
   );
 });
 
@@ -101,7 +101,7 @@ test('PasswordLink', async () => {
     new URL('http://bugzilla.test.org/test/'),
     'my-name',
     'my-password',
-    true,
+    true
   );
 
   let loginHandler = vi.fn(
@@ -110,12 +110,12 @@ test('PasswordLink', async () => {
         JSON.stringify({
           id: 57,
           token: 'my-token',
-        }),
-      ),
+        })
+      )
   );
 
   server.use(
-    http.get('http://bugzilla.test.org/test/rest/login', loginHandler),
+    http.get('http://bugzilla.test.org/test/rest/login', loginHandler)
   );
 
   let responseHandler = vi.fn(
@@ -124,12 +124,12 @@ test('PasswordLink', async () => {
         JSON.stringify({
           foo: 'Bar',
           length: 38,
-        }),
-      ),
+        })
+      )
   );
 
   server.use(
-    http.get('http://bugzilla.test.org/test/rest/foo', responseHandler),
+    http.get('http://bugzilla.test.org/test/rest/foo', responseHandler)
   );
 
   let testSpec = object({
@@ -151,7 +151,7 @@ test('PasswordLink', async () => {
         method: 'GET',
         url: 'http://bugzilla.test.org/test/rest/login?login=my-name&password=my-password&restrict_login=true',
       }),
-    }),
+    })
   );
 
   expect(responseHandler).toHaveBeenCalledTimes(1);
@@ -161,7 +161,7 @@ test('PasswordLink', async () => {
         method: 'GET',
         url: 'http://bugzilla.test.org/test/rest/foo',
       }),
-    }),
+    })
   );
 
   loginHandler.mockClear();
@@ -177,6 +177,6 @@ test('PasswordLink', async () => {
         method: 'GET',
         url: 'http://bugzilla.test.org/test/rest/foo',
       }),
-    }),
+    })
   );
 });

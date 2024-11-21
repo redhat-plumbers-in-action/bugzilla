@@ -24,7 +24,7 @@ beforeEach(async () => {
   api = new BugzillaAPI(
     'http://localhost:8088/bugzilla/',
     'admin@nowhere.com',
-    'adminpass',
+    'adminpass'
   );
 
   bugs.push(await api.createBug(bug));
@@ -40,7 +40,7 @@ beforeEach(async () => {
       platform: 'Macintosh',
       priority: 'High',
       severity: 'normal',
-    }),
+    })
   );
 
   expect(bugs).toBeDefined();
@@ -149,7 +149,7 @@ test('Fetch bugs', async () => {
   ]);
 
   await expect(api.quicksearch('ALL')).resolves.toEqual(
-    expect.arrayContaining(result),
+    expect.arrayContaining(result)
   );
 });
 
@@ -161,7 +161,7 @@ test('Update bug', async () => {
       blocks: { set: [bugs[1] as number] },
       comment: { comment: 'New comment', is_private: false },
       severity: 'normal',
-    }),
+    })
   ).resolves.toEqual([
     {
       alias: [],
@@ -181,7 +181,7 @@ test('Update multiple bugs', async () => {
       id_or_alias: bugs[0] as number,
       ids: [bugs[0] as number, bugs[1] as number],
       severity: 'normal',
-    }),
+    })
   ).resolves.toEqual([
     {
       alias: [],
@@ -208,7 +208,7 @@ test('Get history of bug', async () => {
 
 test('Use of advance searching', async () => {
   const expected = await api.advancedSearch(
-    'http://localhost:8088/bugzilla/buglist.cgi?email1=admin%40nowhere.com&severity=normal',
+    'http://localhost:8088/bugzilla/buglist.cgi?email1=admin%40nowhere.com&severity=normal'
   );
 
   expected.forEach(bug => {
@@ -216,19 +216,19 @@ test('Use of advance searching', async () => {
       expect.objectContaining({
         severity: 'normal',
         creator: 'admin@nowhere.com',
-      }),
+      })
     );
   });
 
   await expect(
-    api.advancedSearch('email1=admin%40nowhere.com&severity=normal'),
+    api.advancedSearch('email1=admin%40nowhere.com&severity=normal')
   ).resolves.toEqual(expected);
 
   await expect(
     api.advancedSearch({
       email1: 'admin@nowhere.com',
       severity: 'normal',
-    }),
+    })
   ).resolves.toEqual(expected);
 });
 
