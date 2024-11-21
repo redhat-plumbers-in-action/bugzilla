@@ -1,6 +1,10 @@
 # Change Log
 
-# [Next](https://github.com/redhat-plumbers-in-action/bugzilla/compare/v3.1.3...main)
+# [Next](https://github.com/redhat-plumbers-in-action/bugzilla/compare/v3.1.4...main)
+
+# [3.1.4](https://github.com/redhat-plumbers-in-action/bugzilla/compare/v3.1.3...v3.1.4)
+
+- Allow to numbers in is_obsolete and is_patch for attachment
 
 # [3.1.3](https://github.com/redhat-plumbers-in-action/bugzilla/compare/v3.1.2...v3.1.3)
 
