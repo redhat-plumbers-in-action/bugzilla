@@ -35,7 +35,7 @@
   "homepage": "https://github.com/redhat-plumbers-in-action/bugzilla#readme",
   "devDependencies": {
     "@types/luxon": "3.4.2",
-    "@types/node": "22.9.1",
+    "@types/node": "22.15.31",
     "@vitest/coverage-v8": "^2.1.5",
     "msw": "2.6.6",
     "prettier": "3.3.3",
