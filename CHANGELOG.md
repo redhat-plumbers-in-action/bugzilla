@@ -1,6 +1,10 @@
 # Change Log
 
-# [Next](https://github.com/redhat-plumbers-in-action/bugzilla/compare/v3.1.4...main)
+# [Next](https://github.com/redhat-plumbers-in-action/bugzilla/compare/v3.1.5...main)
+
+# [3.1.5](https://github.com/redhat-plumbers-in-action/bugzilla/compare/v3.1.4...v3.1.5)
+
+- Dependency updates
 
 # [3.1.4](https://github.com/redhat-plumbers-in-action/bugzilla/compare/v3.1.3...v3.1.4)
 
