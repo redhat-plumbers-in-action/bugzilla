@@ -791,14 +791,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"axios@npm:1.7.7":
-  version: 1.7.7
-  resolution: "axios@npm:1.7.7"
+"axios@npm:1.10.0":
+  version: 1.10.0
+  resolution: "axios@npm:1.10.0"
   dependencies:
     follow-redirects: "npm:^1.15.6"
     form-data: "npm:^4.0.0"
     proxy-from-env: "npm:^1.1.0"
-  checksum: 10c0/4499efc89e86b0b49ffddc018798de05fab26e3bf57913818266be73279a6418c3ce8f9e934c7d2d707ab8c095e837fc6c90608fb7715b94d357720b5f568af7
+  checksum: 10c0/2239cb269cc789eac22f5d1aabd58e1a83f8f364c92c2caa97b6f5cbb4ab2903d2e557d9dc670b5813e9bcdebfb149e783fb8ab3e45098635cd2f559b06bd5d8
   languageName: node
   linkType: hard
 
@@ -825,7 +825,7 @@ __metadata:
     "@types/luxon": "npm:3.4.2"
     "@types/node": "npm:22.9.1"
     "@vitest/coverage-v8": "npm:^2.1.5"
-    axios: "npm:1.7.7"
+    axios: "npm:1.10.0"
     luxon: "npm:3.5.0"
     msw: "npm:2.6.6"
     prettier: "npm:3.3.3"
