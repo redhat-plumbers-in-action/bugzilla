@@ -2,9 +2,9 @@ import { URL, URLSearchParams } from 'url';
 
 import type { DateTime } from 'luxon';
 
-import type { BugzillaLink, SearchParams } from './link';
-import { PublicLink, params, PasswordLink, ApiKeyLink } from './link';
-import { FilteredQuery } from './query';
+import type { BugzillaLink, SearchParams } from './link.js';
+import { PublicLink, params, PasswordLink, ApiKeyLink } from './link.js';
+import { FilteredQuery } from './query.js';
 import type {
   Bug,
   User,
@@ -18,7 +18,7 @@ import type {
   CreateAttachmentContent,
   UpdateAttachmentContent,
   UpdatedAttachment,
-} from './types';
+} from './types.js';
 import {
   HistoryLookupSpec,
   BugSpec,
@@ -31,8 +31,8 @@ import {
   AttachmentsSpec,
   CreatedAttachmentSpec,
   UpdatedAttachmentTemplateSpec,
-} from './types';
-import { array, object } from './validators';
+} from './types.js';
+import { array, object } from './validators.js';
 
 export type {
   Bug,
@@ -42,7 +42,7 @@ export type {
   Flag,
   Comment,
   Attachment,
-} from './types';
+} from './types.js';
 
 export default class BugzillaAPI {
   private readonly link: BugzillaLink;
@@ -281,8 +281,11 @@ export default class BugzillaAPI {
     bugId: number,
     attachment: CreateAttachmentContent
   ): Promise<number[]> {
+    const data = Buffer.isBuffer(attachment.data)
+      ? attachment.data
+      : Buffer.from(attachment.data);
     const dataBase64 = {
-      data: Buffer.from(attachment.data).toString('base64'),
+      data: data.toString('base64'),
     };
 
     let attachmentStatus = await this.link.post(
