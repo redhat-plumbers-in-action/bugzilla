@@ -18,7 +18,7 @@ import {
   double,
   base64,
   either,
-} from './validators';
+} from './validators.js';
 
 type int = number;
 type double = number;
