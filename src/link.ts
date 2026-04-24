@@ -1,8 +1,8 @@
 import { URLSearchParams, URL } from 'url';
 
 import axios, { AxiosRequestConfig } from 'axios';
-import { object, Validator } from './validators';
-import { LoginResponseSpec } from './types';
+import { object, Validator } from './validators.js';
+import { LoginResponseSpec } from './types.js';
 
 export type SearchParams =
   | Record<string, string>
