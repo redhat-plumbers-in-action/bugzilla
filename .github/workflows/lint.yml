@@ -36,6 +36,9 @@ jobs:
     name: Differential ShellCheck
     runs-on: ubuntu-latest
 
+    permissions:
+      security-events: write
+
     steps:
       - name: Repository checkout
         uses: actions/checkout@v6
@@ -46,6 +49,7 @@ jobs:
         name: Differential ShellCheck
         uses: redhat-plumbers-in-action/differential-shellcheck@v5
         with:
+          display-engine: sarif-fmt
           token: ${{ secrets.GITHUB_TOKEN }}
 
       - if: ${{ always() }}
