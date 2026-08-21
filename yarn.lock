@@ -389,10 +389,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/luxon@npm:3.7.1":
-  version: 3.7.1
-  resolution: "@types/luxon@npm:3.7.1"
-  checksum: 10c0/2db30c13b58adcd86daa447faa3ba59515fe907ead8ee3e6bb716d662812af0619d712f6c1eb190cdd7f9d2c00444c3ecd80af0f36e8143eb0c5e7339d6b2aca
+"@types/luxon@npm:3.7.5":
+  version: 3.7.5
+  resolution: "@types/luxon@npm:3.7.5"
+  checksum: 10c0/7b851e94cd0d47784682dd3bc412960519d2c888bcca1408b6c8484742805637ed1a94797ce4e44fc925c8b20b52803035880d0122e3658c17f98838b387c46b
   languageName: node
   linkType: hard
 
@@ -604,7 +604,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "bugzilla@workspace:."
   dependencies:
-    "@types/luxon": "npm:3.7.1"
+    "@types/luxon": "npm:3.7.5"
     "@types/node": "npm:25.6.0"
     "@vitest/coverage-v8": "npm:4.1.5"
     axios: "npm:1.15.2"
